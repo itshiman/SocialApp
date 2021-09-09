@@ -4,6 +4,7 @@ const postRouter = express.Router();
 const mongoose = require('mongoose');
 
 const Posts = require('../models/posts');
+const authenticate = require('../authenticate');
 
 postRouter
   .route('/')
@@ -19,7 +20,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verifyUser, (req, res, next) => {
     Posts.create(req.body)
       .then(
         (post) => {
@@ -32,11 +33,11 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .put((req, res, next) => {
+  .put(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /posts');
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verifyUser, (req, res, next) => {
     Posts.remove({})
       .then(
         (resp) => {
@@ -63,11 +64,11 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /posts/' + req.params.postId);
   })
-  .put((req, res, next) => {
+  .put(authenticate.verifyUser, (req, res, next) => {
     Posts.findByIdAndUpdate(
       req.params.postId,
       {
@@ -85,7 +86,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verifyUser, (req, res, next) => {
     Posts.findByIdAndRemove(req.params.postId)
       .then(
         (resp) => {
@@ -118,7 +119,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verifyUser, (req, res, next) => {
     Posts.findById(req.params.postId)
       .then(
         (post) => {
@@ -142,7 +143,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .put((req, res, next) => {
+  .put(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end(
       'PUT operation not supported on /postes/' +
@@ -150,7 +151,7 @@ postRouter
         '/comments'
     );
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verifyUser, (req, res, next) => {
     Posts.findById(req.params.postId)
       .then(
         (post) => {
@@ -201,7 +202,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end(
       'POST operation not supported on /postes/' +
@@ -210,7 +211,7 @@ postRouter
         req.params.commentId
     );
   })
-  .put((req, res, next) => {
+  .put(authenticate.verifyUser, (req, res, next) => {
     Posts.findById(req.params.postId)
       .then(
         (post) => {
@@ -243,7 +244,7 @@ postRouter
       )
       .catch((err) => next(err));
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verifyUser, (req, res, next) => {
     Posts.findById(req.params.postId)
       .then(
         (post) => {
