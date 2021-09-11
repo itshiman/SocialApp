@@ -39,6 +39,22 @@ const User = new Schema(
       type: Array,
       default: [],
     },
+    description: {
+      type: String,
+      max: 50,
+    },
+    city: {
+      type: String,
+      max: 50,
+    },
+    from: {
+      type: String,
+      max: 50,
+    },
+    relationship: {
+      type: Number,
+      enum: [1, 2, 3],
+    },
   },
   { timestamps: true }
 );

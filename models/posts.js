@@ -7,7 +7,7 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
-    author: {
+    userId: {
       type: String,
       required: true,
     },
@@ -19,9 +19,19 @@ const commentSchema = new Schema(
 
 const postSchema = new Schema(
   {
-    description: {
+    userId: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
+    likes: {
+      type: Array,
+      default: [],
     },
     comments: [commentSchema],
   },
