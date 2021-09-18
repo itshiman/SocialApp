@@ -4,7 +4,9 @@ const postRouter = express.Router();
 const mongoose = require('mongoose');
 
 const Posts = require('../models/posts');
+const User = require('../models/users');
 const authenticate = require('../authenticate');
+const followedLanguages = require('../lib/followedLanguage').followedLanguages;
 
 postRouter
   .route('/')
@@ -286,19 +288,59 @@ postRouter
   });
 
 //Get timeline posts
-postRouter
-  .route('/timeline/all')
-  .get(authenticate.verifyUser, async (req, res, next) => {
-    const currentUser = req.user;
-    try {
-      const userPosts = await Posts.find({ userId: currentUser._id });
-      const friendPosts = await Promise.all(
-        currentUser.followings.map((friendId) => {
-          return Posts.find({ userId: friendId });
-        })
-      );
-      res.status(200).json(userPosts.concat(...friendPosts));
-    } catch (error) {}
-  });
+postRouter.route('/timeline/:id').get(async (req, res, next) => {
+  const currentUser = await User.findById(req.params.id);
+  try {
+    const userPosts = await Posts.find({ userId: currentUser._id });
+    const friendPosts = await Promise.all(
+      currentUser.followings.map((friendId) => {
+        return Posts.find({ userId: friendId });
+      })
+    );
+    // const languages = followedLanguages(currentUser);
+    // for (language in languages) {
+    //   const userPosts = await Posts.find({ LanguageId: language });
+    // }
+    var token = authenticate.getToken({ _id: req.params.id });
+    res.status(200);
+    res.json(userPosts.concat(...friendPosts));
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Get user all post
+
+postRouter.route('/profile/:username').get(async (req, res, next) => {
+  const user = await User.findOne({ username: req.params.username });
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    const userPosts = await Posts.find({ userId: user._id });
+    res.status(200);
+    res.json(userPosts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//Test
+
+postRouter.route('/test/:username').get((req, res, next) => {
+  var currentUser = '';
+  var id = ['6144a688ebca52731f75514d'];
+  User.findById(id)
+    //User.findOne({ username: 'Python' })
+    .then(
+      async (user) => {
+        const languages = followedLanguages();
+        for (language in languages) {
+          currentUser = await User.findById(id[0]);
+        }
+        res.json(currentUser).status(200);
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
+});
 
 module.exports = postRouter;

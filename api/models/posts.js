@@ -26,6 +26,9 @@ const postSchema = new Schema(
     description: {
       type: String,
     },
+    title: {
+      type: String,
+    },
     image: {
       type: String,
     },
