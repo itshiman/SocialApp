@@ -12,6 +12,8 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const postRouter = require('./routes/postRouter');
 const UserRouter = require('./routes/user');
+const MessageRouter = require('./routes/messages');
+const ConversationRouter = require('./routes/conversations');
 
 const config = require('./config');
 
@@ -56,6 +58,8 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/users', UserRouter);
+app.use('/conversations', ConversationRouter);
+app.use('/messages', MessageRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

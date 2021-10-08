@@ -11,8 +11,9 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-function ProfileRightBar({ user, friends }) {
+function ProfileRightBar({ user }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
+
   const [followed, setFollowed] = useState(
     currentUser.followings.includes(user._id)
   );

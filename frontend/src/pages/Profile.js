@@ -36,7 +36,6 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const username = useParams().username;
 
-  const [friends, setFriends] = useState([]);
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
@@ -50,18 +49,6 @@ export default function Profile() {
     };
     fetchUser();
   }, [username, currentUser.token]);
-
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const friendList = await axios.get('/users/friends/' + username);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriends();
-  }, [username]);
 
   return (
     <div>
@@ -93,7 +80,7 @@ export default function Profile() {
           </Box>
           <Grid container className={classes.nestGrid}>
             <Grid item sm={4} className={classes.gridItemRight}>
-              <FriendList friends={friends} />
+              <FriendList user={user} />
             </Grid>
             <Grid item sm={4} className={classes.gridItemRight}>
               <Box className={classes.descriptionBox} mt={15}>
@@ -114,7 +101,7 @@ export default function Profile() {
               </Box>
             </Grid>
             <Grid item sm={4} className={classes.gridItemRight}>
-              <ProfileRightBar user={user} friends={friends} />
+              <ProfileRightBar user={user} />
             </Grid>
           </Grid>
           <Grid item>

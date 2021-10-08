@@ -73,8 +73,6 @@ const Navbar = () => {
 
   const [inputValue, setInputValue] = useState();
 
-  console.log(inputValue);
-
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();

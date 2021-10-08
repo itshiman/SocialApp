@@ -10,7 +10,7 @@ const genPassword = require('../lib/passwordUtils').genPassword;
 userRouter
   .route('/')
 
-  .get(authenticate.verifyUser, async (req, res) => {
+  .get(async (req, res) => {
     const userId = req.query.userId;
     const username = req.query.username;
     try {
@@ -56,9 +56,10 @@ userRouter
     }
   });
 
-userRouter.route('/friends/:username').get(async (req, res) => {
+userRouter.route('/friends/:userId').get(async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findById(req.params.userId);
+
     const friends = await Promise.all(
       user.followings.map((friendId) => {
         return User.findById(friendId);
@@ -71,6 +72,7 @@ userRouter.route('/friends/:username').get(async (req, res) => {
     });
     res.status(200).json(friendList);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });

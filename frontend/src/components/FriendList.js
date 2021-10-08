@@ -8,7 +8,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Info } from '@material-ui/icons';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,9 +19,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FriendList({ friends }) {
+function FriendList({ user }) {
   const classes = useStyles();
+  const [friends, setFriends] = useState([]);
   console.log(friends);
+
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const friendList = await axios.get('/users/friends/' + user._id);
+        setFriends(friendList.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getFriends();
+  }, [user]);
 
   return (
     <Box className={classes.descriptionBox} mt={15}>
