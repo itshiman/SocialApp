@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Avatar,
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -17,6 +18,7 @@ import { format } from 'timeago.js';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import PostMenu from './PostMenu';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -44,10 +46,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Posts = ({ post }) => {
   const classes = useStyles();
+
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
+
   const [user, setUser] = useState({});
   const { user: currentUser } = useContext(AuthContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
@@ -85,7 +100,25 @@ const Posts = ({ post }) => {
             }
             action={
               <IconButton aria-label='settings'>
-                <MoreVert />
+                <MoreVert
+                  id='basic-button'
+                  aria-controls='basic-menu'
+                  aria-haspopup='true'
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}>
+                  Menu
+                </MoreVert>
+                {open ? (
+                  <PostMenu
+                    handleClick={handleClick}
+                    handleClose={handleClose}
+                    open={open}
+                    anchorEl={anchorEl}
+                    post={post}
+                  />
+                ) : (
+                  <></>
+                )}
               </IconButton>
             }
             title={user.username}

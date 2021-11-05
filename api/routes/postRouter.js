@@ -93,19 +93,19 @@ postRouter
   .route('/:id/like')
 
   //Like/Unlike a post
-  .put(authenticate.verifyUser, (req, res, next) => {
+  .put((req, res, next) => {
     Posts.findById(req.params.id)
       .then(
         (post) => {
-          if (!post.likes.includes(req.user._id)) {
-            post.updateOne({ $push: { likes: req.user._id } }).then(
+          if (!post.likes.includes(req.body.userId)) {
+            post.updateOne({ $push: { likes: req.body.userId } }).then(
               () => {
                 res.status(200).json('You have liked the post');
               },
               (err) => next(err)
             );
           } else {
-            post.updateOne({ $pull: { likes: req.user._id } }).then(
+            post.updateOne({ $pull: { likes: req.body.userId } }).then(
               () => {
                 res.status(200).json('You have unliked the post');
               },
@@ -115,7 +115,10 @@ postRouter
         },
         (err) => next(err)
       )
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.log(err);
+        next(err);
+      });
   });
 
 postRouter

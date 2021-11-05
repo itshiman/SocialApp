@@ -14,8 +14,8 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
-    width: 350,
-    height: 450,
+    width: 380,
+    height: 350,
   },
 }));
 
@@ -41,11 +41,13 @@ function FriendList({ user }) {
       <Typography gutterBottom variant='h4' component='h2'>
         Friends
       </Typography>
-      <ImageList rowHeight={180} cols={2} className={classes.imageList}>
+      <ImageList rowHeight={90} cols={2} className={classes.imageList}>
         {friends.map((friend) => {
           return (
-            <Link to={'/Profile/' + friend.username}>
-              <ImageListItem>
+            <Link
+              to={'/Profile/' + friend.username}
+              style={{ width: '45%', margin_left: '20px' }}>
+              <ImageListItem style={{ height: '200px' }}>
                 <img src={friend.profilePicture} alt={friend.username} />
                 <ImageListItemBar
                   title={friend.username}
