@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
+import { Container } from "@material-ui/core";
 
-import React, { useContext, useEffect, useState } from 'react';
-import Post from './Post';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from "react";
+import Post from "./Post";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,9 +19,9 @@ const Feed = ({ username }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username
-        ? await axios.get('/posts/profile/' + username)
-        : await axios.get('posts/timeline/' + user._id);
-      console.log('Posts are ' + res);
+        ? await axios.get("/posts/profile/" + username)
+        : await axios.get("posts/timeline/" + user._id);
+      console.log("Posts are " + res);
       setPosts(
         res.data.sort((p1, p2) => {
           return new Date(p2.createdAt) - new Date(p1.createdAt);
@@ -35,8 +35,8 @@ const Feed = ({ username }) => {
   return (
     <div>
       <Container className={classes.container}>
-        {posts.map((p) => {
-          return <Post post={p} key={p._id} />;
+        {posts.map((p, index) => {
+          return <Post post={p} key={p._id} index={index} />;
         })}
       </Container>
     </div>

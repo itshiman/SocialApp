@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Card,
@@ -9,20 +9,20 @@ import {
   CardMedia,
   IconButton,
   Typography,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import React, { useContext, useEffect, useState } from 'react';
-import { Favorite, MoreVert, Share } from '@material-ui/icons';
-import { format } from 'timeago.js';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from "react";
+import { Favorite, MoreVert, Share } from "@material-ui/icons";
+import { format } from "timeago.js";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   media: {
-    height: '400px',
+    height: "400px",
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       height: 150,
     },
   },
@@ -32,17 +32,17 @@ const useStyles = makeStyles((theme) => ({
   container: {
     height: 50,
     widht: 50,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   avatar: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
   likeButton: {
-    color: 'red',
+    color: "red",
   },
 }));
 
-const Posts = ({ post }) => {
+const Posts = ({ post, index }) => {
   const classes = useStyles();
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
@@ -55,9 +55,9 @@ const Posts = ({ post }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get('/users?userId=' + post.userId, {
+      const res = await axios.get("/users?userId=" + post.userId, {
         headers: {
-          Authorization: 'bearer ' + currentUser.token,
+          Authorization: "bearer " + currentUser.token,
         },
       });
       setUser(res.data);
@@ -67,11 +67,12 @@ const Posts = ({ post }) => {
 
   const likeHandler = () => {
     try {
-      axios.put('/posts/' + post._id + '/like', { userId: currentUser._id });
+      axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
   return (
     <>
       {/* <Container className={classes.container}></Container> */}
@@ -84,7 +85,7 @@ const Posts = ({ post }) => {
               </Link>
             }
             action={
-              <IconButton aria-label='settings'>
+              <IconButton aria-label="settings">
                 <MoreVert />
               </IconButton>
             }
@@ -94,34 +95,35 @@ const Posts = ({ post }) => {
           {post.image ? (
             <CardMedia
               className={classes.media}
-              image={'http://localhost:3000/images/' + post.image}
-              title='My post'
+              image={"http://localhost:3000/images/" + post.image}
+              title="My post"
             />
           ) : (
             <></>
           )}
 
           <CardContent>
-            <Typography variant='h5'>{post.title}</Typography>
-            <Typography gutterBottom variant='body2'>
+            <Typography variant="h5">{post.title}</Typography>
+            <Typography gutterBottom variant="body2">
               {post.description}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <IconButton aria-label='share' lef>
+          <IconButton aria-label="share" lef>
             <Share />
           </IconButton>
           {isLiked ? (
-            <IconButton aria-label='add to favorites'>
+            <IconButton aria-label="add to favorites">
               <Favorite onClick={likeHandler} className={classes.likeButton} />
             </IconButton>
           ) : (
-            <IconButton aria-label='add to favorites' onClick={likeHandler}>
+            <IconButton aria-label="add to favorites" onClick={likeHandler}>
               <Favorite />
             </IconButton>
           )}
           <Typography>{like} people Like this</Typography>
+          <Typography> | post number {index} </Typography>
         </CardActions>
       </Card>
     </>
