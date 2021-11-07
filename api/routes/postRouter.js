@@ -157,7 +157,10 @@ postRouter
                 res.setHeader('Content-Type', 'application/json');
                 res.json(post);
               },
-              (err) => next(err)
+              (err) => {
+                console.log(err);
+                next(err);
+              }
             );
           } else {
             err = new Error('Post ' + req.params.postId + ' not found');
@@ -165,9 +168,14 @@ postRouter
             return next(err);
           }
         },
-        (err) => next(err)
+        (err) => {
+          console.log(err);
+          next(err);
+        }
       )
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.log(err);
+      });
   })
 
   //Forbidden route
