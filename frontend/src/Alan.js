@@ -21,8 +21,9 @@ const Commands = {
   ALLPOST: "allpost",
   ONEPOST: "onepost",
 };
-const alanKey = process.env.REACT_APP_ALAN_KEY;
-
+//const alanKey = process.env.REACT_APP_ALAN_KEY;
+const alanKey =
+  "e7936d5b794fe44981199431a2315edc2e956eca572e1d8b807a3e2338fdd0dc/stage";
 export default function Alan() {
   // const state = useGlobalState();
   const pathname = window.location.pathname;
