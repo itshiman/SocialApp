@@ -90,7 +90,7 @@ function RenderComments({ comments, post, user }) {
   } else return <div></div>;
 }
 
-const Posts = ({ post }) => {
+const Posts = ({ post, index }) => {
   const classes = useStyles();
 
   const [like, setLike] = useState(post.likes.length);
@@ -135,6 +135,7 @@ const Posts = ({ post }) => {
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
   return (
     <>
       {/* <Container className={classes.container}></Container> */}
@@ -208,6 +209,7 @@ const Posts = ({ post }) => {
               setShowComment(!showComment);
             }}
           />
+          <Typography> | post number {index} </Typography>
         </CardActions>
         <CardFooter>
           {showComment ? (
