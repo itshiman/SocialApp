@@ -1,60 +1,86 @@
-import { useCallback, useEffect, useState } from "react";
-import alanBtn from "@alan-ai/alan-sdk-web";
+import { useCallback, useContext, useEffect, useState } from 'react';
+import alanBtn from '@alan-ai/alan-sdk-web';
+import { AuthContext } from './context/AuthContext';
+import axios from 'axios';
 
 const Commands = {
-  MAKE_POST: "makePost",
-  CLOSE_POST: "closePost",
-  ADD_TITLE: "addTitle",
-  ADD_DESC: "addDesc",
-  ADD_FILE: "addFile",
-  SHARE_POST: "sharePost",
-  LOGOUT: "logout",
-  SIGNUP: "signup",
-  HOME: "home",
-  USERNAME: "username",
-  PASSWORD: "password",
-  EMAIL: "email",
-  SUBMIT: "submit",
-  SCROLLDOWN: "scrolldown",
-  SCROLLUP: "scrollup",
-  WEBD: "webd",
-  ALLPOST: "allpost",
-  ONEPOST: "onepost",
+  MAKE_POST: 'makePost',
+  CLOSE_POST: 'closePost',
+  ADD_TITLE: 'addTitle',
+  ADD_DESC: 'addDesc',
+  ADD_FILE: 'addFile',
+  SHARE_POST: 'sharePost',
+  LOGOUT: 'logout',
+  SIGNUP: 'signup',
+  HOME: 'home',
+  USERNAME: 'username',
+  PASSWORD: 'password',
+  EMAIL: 'email',
+  SUBMIT: 'submit',
+  SCROLLDOWN: 'scrolldown',
+  SCROLLUP: 'scrollup',
+  WEBD: 'webd',
+  ALLPOST: 'allpost',
+  ONEPOST: 'onepost',
 };
-const alanKey = process.env.REACT_APP_ALAN_KEY;
+
+const alanKey =
+  'e7936d5b794fe44981199431a2315edc2e956eca572e1d8b807a3e2338fdd0dc/stage';
 
 export default function Alan() {
   // const state = useGlobalState();
+  const { user } = useContext(AuthContext);
+  const [posts, setPosts] = useState([]);
+  const fetchPosts = async () => {
+    if (user) {
+      const res = await axios.get('posts/timeline/' + user._id);
+      setPosts(
+        res.data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt);
+        })
+      );
+    } else {
+      console.log('No user logged in');
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, [user]);
+
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
+
   const pathname = window.location.pathname;
   const [alanInstance, setAlanInstance] = useState();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const makePost = useCallback(() => {
-    if (pathname == "/") {
+    if (pathname == '/') {
       //   alanInstance.playText("ok , got it ?");
-      document.getElementById("add").click();
+      document.getElementById('add').click();
     } else {
-      alanInstance.playText("first go to feed page, then try");
+      alanInstance.playText('first go to feed page, then try');
     }
   }, [alanInstance]);
 
   const closePost = useCallback(() => {
-    if (pathname == "/") {
-      alanInstance.playText("ok ,let go again to the feed page");
-      document.getElementById("cancel").click();
+    if (pathname == '/') {
+      alanInstance.playText('ok ,let go again to the feed page');
+      document.getElementById('cancel').click();
     } else {
-      alanInstance.playText("something unusual happend can you try manually");
+      alanInstance.playText('something unusual happend can you try manually');
     }
   }, [alanInstance]);
 
   const addTitle = useCallback(
     ({ detail: payload }) => {
-      console.log("fff", payload);
-      if (pathname == "/") {
-        document.getElementById("standard-basic-label").click();
-        console.log("ddddddd", payload.value);
-        document.getElementById("standard-basic").value = payload.value;
+      console.log('fff', payload);
+      if (pathname == '/') {
+        document.getElementById('standard-basic-label').click();
+        console.log('ddddddd', payload.value);
+        document.getElementById('standard-basic').value = payload.value;
       } else {
-        alanInstance.playText("something unusual happend can you try manually");
+        alanInstance.playText('something unusual happend can you try manually');
       }
     },
     [alanInstance]
@@ -62,30 +88,30 @@ export default function Alan() {
 
   const addDesc = useCallback(
     ({ detail: payload }) => {
-      if (pathname == "/") {
-        document.getElementById("standard-basic-1-label").click();
-        document.getElementById("standard-basic-1").value = payload.value;
+      if (pathname == '/') {
+        document.getElementById('standard-basic-1-label').click();
+        document.getElementById('standard-basic-1').value = payload.value;
       } else {
-        alanInstance.playText("something unusual happend can you try manually");
+        alanInstance.playText('something unusual happend can you try manually');
       }
     },
     [alanInstance]
   );
 
   const addFile = useCallback(() => {
-    if (pathname == "/") {
-      document.getElementById("file").click();
+    if (pathname == '/') {
+      document.getElementById('file').click();
     } else {
-      alanInstance.playText("something unusual happend can you try manually");
+      alanInstance.playText('something unusual happend can you try manually');
     }
   }, [alanInstance]);
 
   const sharePost = useCallback(() => {
-    if (pathname == "/") {
-      document.getElementById("share").click();
-      alanInstance.playText("yes , the post get posted successfully");
+    if (pathname == '/') {
+      document.getElementById('share').click();
+      alanInstance.playText('yes , the post get posted successfully');
     } else {
-      alanInstance.playText("something unusual happend can you try manually");
+      alanInstance.playText('something unusual happend can you try manually');
     }
   }, [alanInstance]);
 
@@ -95,53 +121,53 @@ export default function Alan() {
   }, [alanInstance]);
 
   const signup = useCallback(() => {
-    window.location.href = "/signup";
+    window.location.href = '/signup';
   }, [alanInstance]);
 
   const home = useCallback(() => {
-    window.location.href = "/";
+    window.location.href = '/';
   }, [alanInstance]);
 
   const username = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("username-label").click();
+      document.getElementById('username-label').click();
       document
         .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          'MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth'
         )[0]
         .click();
-      document.getElementById("username").value = payload.value;
+      document.getElementById('username').value = payload.value;
     },
     [alanInstance]
   );
 
   const email = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("email-label").click();
+      document.getElementById('email-label').click();
       document
         .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          'MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth'
         )[0]
         .click();
-      document.getElementById("email").value = payload.value;
+      document.getElementById('email').value = payload.value;
     },
     [alanInstance]
   );
   const password = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("password-label").click();
+      document.getElementById('password-label').click();
       document
         .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          'MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth'
         )[0]
         .click();
-      document.getElementById("password").value = payload.value;
+      document.getElementById('password').value = payload.value;
     },
     [alanInstance]
   );
   const submit = useCallback(() => {
-    console.log("eeeeeeeewwwwwwwww");
-    document.getElementById("submit").click();
+    console.log('eeeeeeeewwwwwwwww');
+    document.getElementById('submit').click();
   }, [alanInstance]);
 
   const scrolldown = useCallback(() => {
@@ -153,7 +179,7 @@ export default function Alan() {
   }, [alanInstance]);
 
   const webd = useCallback(() => {
-    window.location.href = "/Profile/Web";
+    window.location.href = '/Profile/Web';
   }, [alanInstance]);
 
   const allpost = useCallback(() => {
@@ -236,11 +262,11 @@ export default function Alan() {
 
     setAlanInstance(
       alanBtn({
-        left: "15px",
+        left: '15px',
         zIndex: 10000,
         key: alanKey,
         onCommand: ({ command, payload }) => {
-          console.log("payload", payload);
+          console.log('payload', payload);
           window.dispatchEvent(new CustomEvent(command, { detail: payload }));
         },
       })
