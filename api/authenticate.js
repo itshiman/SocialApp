@@ -12,10 +12,10 @@ passport.use(
   new LocalStrategy((username, password, cb) => {
     User.findOne({ username: username })
       .then((user) => {
+        console.log(user);
         if (!user) {
           return cb(null, false);
         }
-
         const isValid = validatePassword(password, user.hash, user.salt);
         if (isValid) {
           return cb(null, user);

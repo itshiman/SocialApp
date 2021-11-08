@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -12,11 +13,14 @@ import {
 } from "@material-ui/core";
 
 import React, { useContext, useEffect, useState } from "react";
-import { Favorite, MoreVert, Share } from "@material-ui/icons";
+import { ExpandMore, Favorite, MoreVert, Share } from "@material-ui/icons";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import PostMenu from "./PostMenu";
+import CommentForm from "./CommentForm";
+import { CardFooter, Media } from "reactstrap";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -42,12 +46,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function RenderComments({ comments, post, user }) {
+  const comment_img = {
+    height: 120,
+    width: 120,
+  };
+  const comment_box = {
+    height: 100,
+    overflow: "auto",
+  };
+
+  if (comments != null) {
+    return (
+      <div>
+        <h4>Comments</h4>
+        <div style={comment_box}>
+          <Media list>
+            {comments.map((comment) => {
+              return (
+                <div className="shadow">
+                  <Media className="p-2">
+                    <Media body>
+                      <Media heading className={`ml-5 h5`}>
+                        {comment.userId}
+                        {/* <small className='text-muted ml-4'>
+                              <i>
+                               comment date
+                              </i>
+                            </small> */}
+                      </Media>
+                      <p className={`ml-5`}>{comment.comment}</p>
+                    </Media>
+                  </Media>
+                </div>
+              );
+            })}
+          </Media>
+        </div>
+        <hr />
+        <CommentForm post={post} user={user} />
+      </div>
+    );
+  } else return <div></div>;
+}
+
 const Posts = ({ post, index }) => {
   const classes = useStyles();
+
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
+
   const [user, setUser] = useState({});
   const { user: currentUser } = useContext(AuthContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const [showComment, setShowComment] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
@@ -86,7 +149,26 @@ const Posts = ({ post, index }) => {
             }
             action={
               <IconButton aria-label="settings">
-                <MoreVert />
+                <MoreVert
+                  id="basic-button"
+                  aria-controls="basic-menu"
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  Menu
+                </MoreVert>
+                {open ? (
+                  <PostMenu
+                    handleClick={handleClick}
+                    handleClose={handleClose}
+                    open={open}
+                    anchorEl={anchorEl}
+                    post={post}
+                  />
+                ) : (
+                  <></>
+                )}
               </IconButton>
             }
             title={user.username}
@@ -123,11 +205,37 @@ const Posts = ({ post, index }) => {
             </IconButton>
           )}
           <Typography>{like} people Like this</Typography>
+          <Typography> | comments {post.comments.length} </Typography>
+          <img
+            style={style}
+            src="https://cdn-icons-png.flaticon.com/128/2190/2190552.png"
+          />
+          <ExpandMore
+            onClick={() => {
+              setShowComment(!showComment);
+            }}
+          />
+
           <Typography> | post number {index} </Typography>
         </CardActions>
+        <CardFooter>
+          {showComment ? (
+            <RenderComments
+              comments={post.comments}
+              post={post}
+              user={currentUser}
+            />
+          ) : (
+            <></>
+          )}
+        </CardFooter>
       </Card>
     </>
   );
 };
-
+const style = {
+  color: "white",
+  fontSize: "x-small",
+  maxWidth: "25px",
+};
 export default Posts;

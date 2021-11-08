@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import alanBtn from "@alan-ai/alan-sdk-web";
+import { AuthContext } from "./context/AuthContext";
+import axios from "axios";
 
 const Commands = {
   MAKE_POST: "makePost",
@@ -24,8 +26,27 @@ const Commands = {
 //const alanKey = process.env.REACT_APP_ALAN_KEY;
 const alanKey =
   "e7936d5b794fe44981199431a2315edc2e956eca572e1d8b807a3e2338fdd0dc/stage";
+
 export default function Alan() {
   // const state = useGlobalState();
+
+  const { user } = useContext(AuthContext);
+
+  const [posts, setPosts] = useState([]);
+  function fetchPosts() {
+    if (user) {
+      axios.get("posts/timeline/" + user._id).then((res) => {
+        setPosts(
+          res.data.sort((p1, p2) => {
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+      });
+    } else {
+      console.log("No user logged in");
+    }
+  }
+  //fetchPosts();
   const pathname = window.location.pathname;
   const [alanInstance, setAlanInstance] = useState();
   const [value, setValue] = useState("");
@@ -158,18 +179,26 @@ export default function Alan() {
   }, [alanInstance]);
 
   const allpost = useCallback(() => {
-    // const res = Data();
-    // console.log("sssssssddddddd", res);
-    // props.data.forEach((element) => {
-    //   alanInstance.playText(`${element}`);
-    // });
-  }, [alanInstance]);
+    posts.forEach((element, index) => {
+      const date = element.createdAt.split("T");
+
+      alanInstance.playText(
+        `post no ${index} , created at ${date[0]} ,titled as ${element.title} and post description is ${element.description},
+        this post have  ${element.likes.length} likes and  ${element.comments.length}comment`
+      );
+    });
+  }, [alanInstance, posts]);
 
   const onepost = useCallback(
     ({ detail: payload }) => {
-      const index = payload.value;
+      const data = posts[payload.value];
+      const date = data.createdAt.split("T");
+      alanInstance.playText(
+        `post no ${payload.value} , created at ${date[0]} ,titled as ${data.title} and post description is ${data.description},
+        this post have  ${data.likes.length} likes and  ${data.comments.length}comment`
+      );
     },
-    [alanInstance]
+    [alanInstance, posts]
   );
 
   useEffect(() => {
@@ -232,20 +261,36 @@ export default function Alan() {
     allpost,
     onepost,
   ]);
-  useEffect(() => {
-    if (alanInstance != null) return;
+  useEffect(
+    () => {
+      // fetchPosts();
 
-    setAlanInstance(
-      alanBtn({
-        left: "15px",
-        zIndex: 10000,
-        key: alanKey,
-        onCommand: ({ command, payload }) => {
-          console.log("payload", payload);
-          window.dispatchEvent(new CustomEvent(command, { detail: payload }));
-        },
-      })
-    );
-  }, []);
+      console.log("ddddddd", posts);
+      if (alanInstance != null) return;
+
+      setAlanInstance(
+        alanBtn({
+          left: "15px",
+          zIndex: 10000,
+          key: alanKey,
+          onCommand: ({ command, payload }) => {
+            console.log("payload", payload);
+            window.dispatchEvent(new CustomEvent(command, { detail: payload }));
+          },
+        })
+      );
+    },
+    [user],
+    [posts]
+  );
+
+  useEffect(() => {
+    fetchPosts();
+  }, [user]);
+
+  // useEffect(() => {
+  //   console.log(posts);
+  // }, [posts]);
+
   return null;
 }
