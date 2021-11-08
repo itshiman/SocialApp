@@ -51,7 +51,7 @@ export default function Alan() {
   const [alanInstance, setAlanInstance] = useState();
   const [value, setValue] = useState("");
   const makePost = useCallback(() => {
-    if (pathname == "/") {
+    if (pathname == "/" && document.getElementById("add")) {
       //   alanInstance.playText("ok , got it ?");
       document.getElementById("add").click();
     } else {
@@ -60,7 +60,7 @@ export default function Alan() {
   }, [alanInstance]);
 
   const closePost = useCallback(() => {
-    if (pathname == "/") {
+    if (pathname == "/" && document.getElementById("cancel")) {
       alanInstance.playText("ok ,let go again to the feed page");
       document.getElementById("cancel").click();
     } else {
@@ -71,7 +71,7 @@ export default function Alan() {
   const addTitle = useCallback(
     ({ detail: payload }) => {
       console.log("fff", payload);
-      if (pathname == "/") {
+      if (pathname == "/" && document.getElementById("standard-basic-label")) {
         document.getElementById("standard-basic-label").click();
         console.log("ddddddd", payload.value);
         document.getElementById("standard-basic").value = payload.value;
@@ -84,7 +84,10 @@ export default function Alan() {
 
   const addDesc = useCallback(
     ({ detail: payload }) => {
-      if (pathname == "/") {
+      if (
+        pathname == "/" &&
+        document.getElementById("standard-basic-1-label")
+      ) {
         document.getElementById("standard-basic-1-label").click();
         document.getElementById("standard-basic-1").value = payload.value;
       } else {
@@ -95,7 +98,7 @@ export default function Alan() {
   );
 
   const addFile = useCallback(() => {
-    if (pathname == "/") {
+    if (pathname == "/" && document.getElementById("file")) {
       document.getElementById("file").click();
     } else {
       alanInstance.playText("something unusual happend can you try manually");
@@ -103,7 +106,7 @@ export default function Alan() {
   }, [alanInstance]);
 
   const sharePost = useCallback(() => {
-    if (pathname == "/") {
+    if (pathname == "/" && document.getElementById("share")) {
       document.getElementById("share").click();
       alanInstance.playText("yes , the post get posted successfully");
     } else {
@@ -126,44 +129,60 @@ export default function Alan() {
 
   const username = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("username-label").click();
-      document
-        .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-        )[0]
-        .click();
-      document.getElementById("username").value = payload.value;
+      if (document.getElementById("username-label")) {
+        document.getElementById("username-label").click();
+        document
+          .getElementsByClassName(
+            "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          )[0]
+          .click();
+        document.getElementById("username").value = payload.value;
+      } else {
+        alanInstance.playText("something unusual happend can you try manually");
+      }
     },
     [alanInstance]
   );
 
   const email = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("email-label").click();
-      document
-        .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-        )[0]
-        .click();
-      document.getElementById("email").value = payload.value;
+      if (document.getElementById("email-label")) {
+        document.getElementById("email-label").click();
+        document
+          .getElementsByClassName(
+            "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          )[0]
+          .click();
+        document.getElementById("email").value = payload.value;
+      } else {
+        alanInstance.playText("something unusual happend can you try manually");
+      }
     },
     [alanInstance]
   );
   const password = useCallback(
     ({ detail: payload }) => {
-      document.getElementById("password-label").click();
-      document
-        .getElementsByClassName(
-          "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-        )[0]
-        .click();
-      document.getElementById("password").value = payload.value;
+      if (document.getElementById("password-label")) {
+        document.getElementById("password-label").click();
+        document
+          .getElementsByClassName(
+            "MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          )[0]
+          .click();
+        document.getElementById("password").value = payload.value;
+      } else {
+        alanInstance.playText("something unusual happend can you try manually");
+      }
     },
     [alanInstance]
   );
   const submit = useCallback(() => {
     console.log("eeeeeeeewwwwwwwww");
-    document.getElementById("submit").click();
+    if (document.getElementById("submit")) {
+      document.getElementById("submit").click();
+    } else {
+      alanInstance.playText("something unusual happend can you try manually");
+    }
   }, [alanInstance]);
 
   const scrolldown = useCallback(() => {
@@ -191,6 +210,7 @@ export default function Alan() {
 
   const onepost = useCallback(
     ({ detail: payload }) => {
+      // console.log("pppppppppp", number);
       const data = posts[payload.value];
       const date = data.createdAt.split("T");
       alanInstance.playText(
