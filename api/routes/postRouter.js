@@ -347,8 +347,6 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
       });
     }
 
-    console.log(resPosts);
-
     res.status(200);
     res.json(resPosts);
   } catch (error) {
