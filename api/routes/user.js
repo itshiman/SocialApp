@@ -134,4 +134,59 @@ userRouter.route('/:id/unfollow').put(authenticate.verifyUser, (req, res) => {
   }
 });
 
+userRouter
+  .route('/category/:name/follow')
+  .put(authenticate.verifyUser, (req, res) => {
+    const currentUser = req.user._id;
+    const targetUser = req.params.name;
+
+    User.findOne({ username: targetUser }).then((target) => {
+      if (target) {
+        if (!target.followers.includes(currentUser)) {
+          User.findOneAndUpdate(
+            { _id: target },
+            { $push: { followers: currentUser } }
+          ).then(() => {
+            User.findOneAndUpdate(
+              { _id: currentUser },
+              { $push: { categories: target.username } }
+            ).then(() => {
+              res.status(200).json('You are now following ' + target.username);
+            });
+          });
+        } else {
+          res.status(403).json('You already follow the user');
+        }
+      } else {
+        res.status(404).json('User Not Found');
+      }
+    });
+  });
+userRouter
+  .route('/category/:name/unfollow')
+  .put(authenticate.verifyUser, (req, res) => {
+    const currentUser = req.user._id;
+    const targetUser = req.params.name;
+
+    User.findOne({ username: targetUser }).then((target) => {
+      if (target) {
+        if (target.followers.includes(currentUser)) {
+          User.findOneAndUpdate(
+            { _id: target },
+            { $pull: { followers: currentUser } }
+          ).then(() => {
+            User.findOneAndUpdate(
+              { _id: currentUser },
+              { $pull: { categories: target.username } }
+            ).then(() => {
+              res.status(200).json('You have unfollowed ' + target.username);
+            });
+          });
+        } else {
+          res.status(403).json("You don't follow the user");
+        }
+      }
+    });
+  });
+
 module.exports = userRouter;

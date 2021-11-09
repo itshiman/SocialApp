@@ -55,6 +55,10 @@ const User = new Schema(
       type: Number,
       enum: [1, 2, 3],
     },
+    categories: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

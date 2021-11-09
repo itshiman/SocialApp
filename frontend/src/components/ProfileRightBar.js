@@ -8,15 +8,19 @@ import {
   Typography,
 } from '@material-ui/core';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-function ProfileRightBar({ user }) {
-  const { user: currentUser, dispatch } = useContext(AuthContext);
+function ProfileRightBar({ user, currentUser }) {
+  const { dispatch } = useContext(AuthContext);
 
-  const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user._id)
-  );
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setFollowed(currentUser.followings.includes(user._id));
+    }
+  }, [currentUser, user]);
 
   const body = {};
   const handleClick = async () => {

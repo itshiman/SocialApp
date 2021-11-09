@@ -303,18 +303,54 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
   const currentUser = await User.findById(req.params.id);
   try {
     const userPosts = await Posts.find({ userId: currentUser._id });
-    const friendPosts = await Promise.all(
+    var friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
         return Posts.find({ userId: friendId });
       })
     );
-    // const languages = followedLanguages(currentUser);
-    // for (language in languages) {
-    //   const userPosts = await Posts.find({ LanguageId: language });
-    // }
-    var token = authenticate.getToken({ _id: req.params.id });
+
+    const catPosts = await Promise.all(
+      currentUser.categories.map((name) => {
+        return Posts.find({ category: name });
+      })
+    );
+
+    var tempResPosts = [...userPosts];
+
+    if (catPosts[0]) {
+      catPosts[0].forEach(function (item) {
+        var flag = 0;
+        for (var i = 0; i < userPosts.length; i++) {
+          if (item.userId === userPosts[i].userId) {
+            flag = 1;
+          }
+        }
+        if (flag == 0) {
+          tempResPosts.push(item);
+        }
+      });
+    }
+
+    var resPosts = [...tempResPosts];
+
+    if (friendPosts) {
+      friendPosts[0].forEach(function (item) {
+        var flag = 0;
+        for (var i = 0; i < tempResPosts.length; i++) {
+          if (item.userId === tempResPosts[i].userId) {
+            flag = 1;
+          }
+        }
+        if (flag == 0) {
+          resPosts.push(item);
+        }
+      });
+    }
+
+    console.log(resPosts);
+
     res.status(200);
-    res.json(userPosts.concat(...friendPosts));
+    res.json(resPosts);
   } catch (error) {
     console.log(error);
   }
@@ -334,24 +370,17 @@ postRouter.route('/profile/:username').get(async (req, res, next) => {
   }
 });
 
-//Test
+//Get category all post
 
-postRouter.route('/test/:username').get((req, res, next) => {
-  var currentUser = '';
-  var id = ['6144a688ebca52731f75514d'];
-  User.findById(id)
-    //User.findOne({ username: 'Python' })
-    .then(
-      async (user) => {
-        const languages = followedLanguages();
-        for (language in languages) {
-          currentUser = await User.findById(id[0]);
-        }
-        res.json(currentUser).status(200);
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
+postRouter.route('/category/:username').get(async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    const userPosts = await Posts.find({ category: user.username });
+    res.status(200);
+    res.json(userPosts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 module.exports = postRouter;

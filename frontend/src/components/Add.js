@@ -2,11 +2,13 @@ import {
   Container,
   Fab,
   makeStyles,
+  MenuItem,
   Modal,
+  Select,
   Snackbar,
   TextField,
   Tooltip,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   Add as AddIcon,
   Cancel,
@@ -14,32 +16,32 @@ import {
   Label,
   PermMedia,
   Room,
-} from "@material-ui/icons";
-import { useContext, useRef, useState } from "react";
-import MuiAlert from "@material-ui/lab/Alert";
-import { AuthContext } from "../context/AuthContext";
-import axios from "axios";
-import "./add.css";
+} from '@material-ui/icons';
+import { useContext, useRef, useState } from 'react';
+import MuiAlert from '@material-ui/lab/Alert';
+import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+import './add.css';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
-    position: "fixed",
+    position: 'fixed',
     bottom: 20,
     right: 20,
   },
   container: {
     width: 600,
     height: 500,
-    backgroundColor: "white",
-    position: "absolute",
+    backgroundColor: 'white',
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    margin: "auto",
-    [theme.breakpoints.down("sm")]: {
-      width: "100vw",
-      height: "100vh",
+    margin: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      width: '100vw',
+      height: '100vh',
     },
   },
   form: {
@@ -50,13 +52,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   shareImg: {
-    width: "100%",
-    objectFit: "cover",
+    width: '100%',
+    objectFit: 'cover',
   },
 }));
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const Add = () => {
@@ -65,36 +67,42 @@ const Add = () => {
   const title = useRef();
   const [file, setFile] = useState(null);
   const { user } = useContext(AuthContext);
+  const [category, setCategory] = useState('');
+
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
 
   const submitHandler = async (e) => {
     setOpenAlert(true);
     setOpen(false);
     setFile(null);
     e.preventDefault();
-    console.log(desc, file);
+    console.log(e);
     const newPost = {
       title: title.current.value,
       userId: user._id,
       description: desc.current.value,
+      category: category,
     };
     if (file) {
       const data = new FormData();
       const fileName = Date.now() + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
+      data.append('name', fileName);
+      data.append('file', file);
       newPost.image = fileName;
       console.log(newPost);
       try {
-        const res = await axios.post("/upload", data);
+        const res = await axios.post('/upload', data);
         console.log(res);
       } catch (err) {
         console.log(err);
       }
     }
     try {
-      await axios.post("/posts", newPost, {
+      await axios.post('/posts', newPost, {
         headers: {
-          Authorization: "bearer " + user.token,
+          Authorization: 'bearer ' + user.token,
         },
       });
       window.location.reload();
@@ -106,7 +114,7 @@ const Add = () => {
   const [openAlert, setOpenAlert] = useState(false);
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -114,39 +122,51 @@ const Add = () => {
   };
   return (
     <>
-      <Tooltip title="Add" aria-label="add" onClick={() => setOpen(true)}>
-        <Fab id="add" color="primary" className={classes.fab}>
+      <Tooltip title='Add' aria-label='add' onClick={() => setOpen(true)}>
+        <Fab id='add' color='primary' className={classes.fab}>
           <AddIcon />
         </Fab>
       </Tooltip>
       <Modal open={open}>
         <Container className={classes.container}>
-          <div className="share">
-            <div className="shareWrapper">
-              <div className="shareTop">
+          <div className='share'>
+            <div className='shareWrapper'>
+              <div className='shareTop'>
                 <img
-                  className="shareProfileImg"
+                  className='shareProfileImg'
                   src={user.profilePicture}
-                  alt=""
+                  alt=''
                 />
                 <form>
                   <div>
                     <TextField
-                      id="standard-basic"
-                      label="Title"
-                      variant="standard"
+                      id='standard-basic'
+                      label='Title'
+                      variant='standard'
                       inputRef={title}
                     />
                   </div>
                   <div>
                     <TextField
                       multiline
-                      id="standard-basic-1"
-                      label="Description"
-                      variant="standard"
+                      id='standard-basic-1'
+                      label='Description'
+                      variant='standard'
                       inputRef={desc}
-                      style={{ width: "400px" }}
+                      style={{ width: '400px' }}
                     />
+                  </div>
+                  <div>
+                    <Select
+                      labelId='demo-simple-select-label'
+                      id='demo-simple-select'
+                      value={category}
+                      label='Category'
+                      onChange={handleChange}>
+                      <MenuItem value={'web'}>Web Development</MenuItem>
+                      <MenuItem value={'android'}>Android Development</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
                   </div>
                 </form>
               </div>
@@ -160,63 +180,62 @@ const Add = () => {
                   className='shareInput'
                   ref={desc}
                 /> */}
-              <hr className="shareHr" />
+              <hr className='shareHr' />
               {file && (
-                <div className="shareImgContainer">
+                <div className='shareImgContainer'>
                   <img
-                    className="shareImg"
+                    className='shareImg'
                     src={URL.createObjectURL(file)}
-                    alt=""
+                    alt=''
                   />
                   <Cancel
-                    className="shareCancelImg"
+                    className='shareCancelImg'
                     onClick={() => setFile(null)}
                   />
                 </div>
               )}
-              <form className="shareBottom" onSubmit={submitHandler}>
-                <div className="shareOptions">
-                  <label htmlFor="file" className="shareOption">
-                    <PermMedia htmlColor="tomato" className="shareIcon" />
-                    <span className="shareOptionText">Photo or Video</span>
+              <form className='shareBottom' onSubmit={submitHandler}>
+                <div className='shareOptions'>
+                  <label htmlFor='file' className='shareOption'>
+                    <PermMedia htmlColor='tomato' className='shareIcon' />
+                    <span className='shareOptionText'>Photo or Video</span>
 
                     <input
-                      style={{ display: "none" }}
-                      type="file"
-                      id="file"
-                      accept=".png,.jpeg,.jpg"
+                      style={{ display: 'none' }}
+                      type='file'
+                      id='file'
+                      accept='.png,.jpeg,.jpg'
                       onChange={(e) => setFile(e.target.files[0])}
                     />
                   </label>
 
-                  <div className="shareOption">
-                    <Label htmlColor="blue" className="shareIcon" />
-                    <span className="shareOptionText">Tag</span>
+                  <div className='shareOption'>
+                    <Label htmlColor='blue' className='shareIcon' />
+                    <span className='shareOptionText'>Tag</span>
                   </div>
-                  <div className="shareOption">
-                    <Room htmlColor="green" className="shareIcon" />
-                    <span className="shareOptionText">Location</span>
+                  <div className='shareOption'>
+                    <Room htmlColor='green' className='shareIcon' />
+                    <span className='shareOptionText'>Location</span>
                   </div>
-                  <div className="shareOption">
+                  <div className='shareOption'>
                     <EmojiEmotions
-                      htmlColor="goldenrod"
-                      className="shareIcon"
+                      htmlColor='goldenrod'
+                      className='shareIcon'
                     />
-                    <span className="shareOptionText">Feelings</span>
+                    <span className='shareOptionText'>Feelings</span>
                   </div>
                 </div>
-                <button className="shareButton" type="submit" id="share">
+                <button className='shareButton' type='submit' id='share'>
                   Share
                 </button>
                 <button
-                  className="shareButton"
-                  type="button"
-                  id="cancel"
+                  className='shareButton'
+                  type='button'
+                  id='cancel'
                   onClick={() => {
                     setOpen(false);
                     setFile(null);
-                  }}
-                >
+                  }}>
                   Cancel
                 </button>
               </form>
@@ -228,9 +247,8 @@ const Add = () => {
         open={openAlert}
         autoHideDuration={2000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      >
-        <Alert onClose={handleClose} severity="success">
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+        <Alert onClose={handleClose} severity='success'>
           This is a success message!
         </Alert>
       </Snackbar>

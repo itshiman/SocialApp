@@ -57,7 +57,7 @@ const Leftbar = () => {
           <Typography className={classes.text}>Home</Typography>
         </div>
       </Link>
-      <Link to='/Profile/Web' style={{ textDecoration: 'none' }}>
+      <Link to='/category/web' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
             src='http://localhost:3000/images/icons8-web-development-48.png'

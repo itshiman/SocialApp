@@ -8,19 +8,24 @@ import {
   Typography,
 } from '@material-ui/core';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-function WebRightBar({ user, friends }) {
+function WebRightBar({ user }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user._id)
-  );
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setFollowed(currentUser.categories.includes(user.username));
+    }
+  }, [currentUser, user]);
 
   const body = {};
+
   const handleClick = async () => {
     try {
-      await axios.put(`/users/${user._id}/unfollow`, body, {
+      await axios.put(`/users/category/${user.username}/unfollow`, body, {
         headers: {
           Authorization: 'bearer ' + currentUser.token,
         },
@@ -36,7 +41,7 @@ function WebRightBar({ user, friends }) {
   const handleClickFollow = async () => {
     try {
       console.log(followed);
-      await axios.put(`/users/${user._id}/follow`, body, {
+      await axios.put(`/users/category/${user.username}/follow`, body, {
         headers: {
           Authorization: 'bearer ' + currentUser.token,
         },

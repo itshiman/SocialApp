@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 function FriendList({ user }) {
   const classes = useStyles();
   const [friends, setFriends] = useState([]);
-  console.log(friends);
 
   useEffect(() => {
     const getFriends = async () => {

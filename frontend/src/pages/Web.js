@@ -9,6 +9,8 @@ import { AuthContext } from '../context/AuthContext';
 import { Box, Grid, makeStyles } from '@material-ui/core';
 
 import WebRightBar from '../components/WebRightbar';
+import Leftbar from '../components/sidebar/Leftbar';
+import CategoryFeed from '../components/CategoryFeed';
 
 const useStyles = makeStyles((theme) => ({
   gridItemLeft: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     margingRight: '0',
   },
   nestGridItem: {
-    margingTop: '100px',
+    marginTop: '100px',
   },
   imageList: {
     width: 350,
@@ -34,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Web() {
   const classes = useStyles();
   const [user, setUser] = useState({});
-  const username = 'Web';
-
+  const username = useParams().username;
   const [friends, setFriends] = useState([]);
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get('/users?username=Web', {
+      const res = await axios.get('/users?username=' + username, {
         headers: {
           Authorization: 'bearer ' + currentUser.token,
         },
@@ -51,42 +52,36 @@ export default function Web() {
     fetchUser();
   }, [username, currentUser.token]);
 
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const friendList = await axios.get('/users/friends/' + username);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriends();
-  }, [username]);
-
+  console.log(user, currentUser);
   return (
     <div>
       <Topbar />
       <Grid container>
         <Grid item sm={2} xs={2} className={classes.gridItemLeft}>
-          <Sidebar />
+          <Leftbar />
         </Grid>
         <Grid item sm={10} xs={10} className={classes.gridItemLeft}>
-          <Box>
-            <div className='profile'>
-              <div className='profileRight'>
-                <div className='profileRightTop'>
-                  <div className='profileCover'>
-                    <img
-                      className='profileCoverImgWeb'
-                      src='https://www.reachfirst.com/wp-content/uploads/2018/08/Web-Development.jpg'
-                      alt=''
-                    />
+          <Grid container>
+            <Grid item sm={12}>
+              <div className='profile'>
+                <div className='profileRight'>
+                  <div className='profileRightTop'>
+                    <div className='profileCover'>
+                      <img
+                        className='profileCoverImgWeb'
+                        src='https://www.reachfirst.com/wp-content/uploads/2018/08/Web-Development.jpg'
+                        alt=''
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Box>
-          <Grid container className={classes.nestGrid}>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            className={classes.nestGrid}
+            style={{ marginTop: '80px' }}>
             <Grid item sm={4} className={classes.gridItemRight}></Grid>
             <Grid item sm={4} className={classes.gridItemRight}>
               <Box className={classes.descriptionBox} mt={5}>
@@ -100,11 +95,11 @@ export default function Web() {
               </Box>
             </Grid>
             <Grid item sm={4} className={classes.gridItemRight}>
-              <WebRightBar user={user} friends={friends} />
+              <WebRightBar user={user} />
             </Grid>
           </Grid>
           <Grid item>
-            <Feed username={username} />
+            <CategoryFeed category={username} currentUser={currentUser} />
           </Grid>
         </Grid>
       </Grid>

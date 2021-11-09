@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile() {
   const classes = useStyles();
   const [user, setUser] = useState({});
+  const [currentUser1, setCurrentUser1] = useState({});
   const username = useParams().username;
 
   const { user: currentUser } = useContext(AuthContext);
@@ -47,7 +48,16 @@ export default function Profile() {
       });
       setUser(res.data);
     };
+    const fetchCurrentUser = async () => {
+      const res = await axios.get('/users?username=' + currentUser.username, {
+        headers: {
+          Authorization: 'bearer ' + currentUser.token,
+        },
+      });
+      setCurrentUser1(res.data);
+    };
     fetchUser();
+    fetchCurrentUser();
   }, [username, currentUser.token]);
 
   return (
@@ -101,7 +111,7 @@ export default function Profile() {
               </Box>
             </Grid>
             <Grid item sm={4} className={classes.gridItemRight}>
-              <ProfileRightBar user={user} />
+              <ProfileRightBar user={user} currentUser={currentUser} />
             </Grid>
           </Grid>
           <Grid item>
