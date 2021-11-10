@@ -8,6 +8,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
+import { Button } from '@material-ui/core';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -16,6 +17,12 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [onBot, setOnBot] = useState(false);
+  const [botMessages, setBotMessages] = useState([
+    { sender: 'bot', text: 'Hi! I am tob' },
+  ]);
+  const [newBotMessage, setNewBotMessage] = useState('');
+
   const socket = useRef();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef();
@@ -97,6 +104,27 @@ export default function Messenger() {
     }
   };
 
+  const handleSubmitBot = async (e) => {
+    e.preventDefault();
+    const message = {
+      sender: 'user',
+      text: newBotMessage,
+    };
+
+    try {
+      const res = await axios.get('http://127.0.0.1:5000/?msg=message.text');
+      console.log(res);
+      setBotMessages([
+        ...botMessages,
+        message,
+        { sender: 'bot', text: res.data },
+      ]);
+      setNewBotMessage('');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -107,6 +135,8 @@ export default function Messenger() {
       <div className='messenger'>
         <div className='chatMenu'>
           <div className='chatMenuWrapper'>
+            <h5 style={{ marginTop: '10px' }}>Chat with Bot</h5>
+            <Button onClick={() => setOnBot(!onBot)}> Chat With XXX</Button>
             <h5 style={{ marginTop: '10px' }}>Previous Conversations</h5>
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
@@ -117,7 +147,29 @@ export default function Messenger() {
         </div>
         <div className='chatBox'>
           <div className='chatBoxWrapper'>
-            {currentChat ? (
+            {onBot ? (
+              <div>
+                <div className='chatBoxTop'>
+                  {botMessages.map((m) => (
+                    <div ref={scrollRef}>
+                      <Message message={m} own={m.sender === 'user'} />
+                    </div>
+                  ))}
+                </div>
+                <div className='chatBoxBottom'>
+                  <textarea
+                    className='chatMessageInput'
+                    placeholder='write something...'
+                    onChange={(e) => setNewBotMessage(e.target.value)}
+                    value={newBotMessage}></textarea>
+                  <button
+                    className='chatSubmitButton'
+                    onClick={handleSubmitBot}>
+                    Send
+                  </button>
+                </div>
+              </div>
+            ) : currentChat ? (
               <>
                 <div className='chatBoxTop'>
                   {messages.map((m) => (
