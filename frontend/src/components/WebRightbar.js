@@ -11,8 +11,8 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-function WebRightBar({ user }) {
-  const { user: currentUser, dispatch } = useContext(AuthContext);
+function WebRightBar({ user, currentUser }) {
+  const { dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function WebRightBar({ user }) {
           Authorization: 'bearer ' + currentUser.token,
         },
       });
-      dispatch({ type: 'UNFOLLOW', payload: user._id });
+      dispatch({ type: 'CATUNFOLLOW', payload: user.username });
 
       setFollowed(!followed);
     } catch (err) {
@@ -46,7 +46,7 @@ function WebRightBar({ user }) {
           Authorization: 'bearer ' + currentUser.token,
         },
       });
-      dispatch({ type: 'FOLLOW', payload: user._id });
+      dispatch({ type: 'CATFOLLOW', payload: user.username });
 
       setFollowed(!followed);
     } catch (err) {
@@ -55,11 +55,8 @@ function WebRightBar({ user }) {
   };
 
   return (
-    <Box mt={10}>
+    <Box mt={5}>
       <Card>
-        <CardActionArea>
-          <CardContent></CardContent>
-        </CardActionArea>
         {currentUser._id === user._id ? (
           <></>
         ) : (

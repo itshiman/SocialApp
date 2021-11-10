@@ -1,6 +1,9 @@
 import {
+  Avatar,
   Container,
   Fab,
+  FormControl,
+  InputLabel,
   makeStyles,
   MenuItem,
   Modal,
@@ -132,10 +135,10 @@ const Add = () => {
           <div className='share'>
             <div className='shareWrapper'>
               <div className='shareTop'>
-                <img
-                  className='shareProfileImg'
+                <Avatar
+                  alt={user.username}
                   src={user.profilePicture}
-                  alt=''
+                  className='shareProfileImg'
                 />
                 <form>
                   <div>
@@ -157,16 +160,23 @@ const Add = () => {
                     />
                   </div>
                   <div>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      value={category}
-                      label='Category'
-                      onChange={handleChange}>
-                      <MenuItem value={'web'}>Web Development</MenuItem>
-                      <MenuItem value={'android'}>Android Development</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                    <FormControl fullWidth>
+                      <InputLabel id='demo-simple-select-label'>
+                        Category
+                      </InputLabel>
+                      <Select
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
+                        label='Category'
+                        value={category}
+                        onChange={handleChange}>
+                        <MenuItem value={'web'}>Web Development</MenuItem>
+                        <MenuItem value={'android'}>
+                          Android Development
+                        </MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
                   </div>
                 </form>
               </div>
@@ -208,22 +218,6 @@ const Add = () => {
                       onChange={(e) => setFile(e.target.files[0])}
                     />
                   </label>
-
-                  <div className='shareOption'>
-                    <Label htmlColor='blue' className='shareIcon' />
-                    <span className='shareOptionText'>Tag</span>
-                  </div>
-                  <div className='shareOption'>
-                    <Room htmlColor='green' className='shareIcon' />
-                    <span className='shareOptionText'>Location</span>
-                  </div>
-                  <div className='shareOption'>
-                    <EmojiEmotions
-                      htmlColor='goldenrod'
-                      className='shareIcon'
-                    />
-                    <span className='shareOptionText'>Feelings</span>
-                  </div>
                 </div>
                 <button className='shareButton' type='submit' id='share'>
                   Share

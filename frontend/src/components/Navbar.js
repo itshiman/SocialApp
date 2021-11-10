@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import {
   Cancel,
+  Forum,
   Mail,
   Notifications,
   PowerSettingsNew,
@@ -110,6 +111,11 @@ const Navbar = () => {
           />
         </div>
         <div className={classes.icons}>
+          <Link
+            to='/messenger'
+            style={{ textDecoration: 'none', color: 'white' }}>
+            <Forum className={classes.badge} />
+          </Link>
           <Search
             className={classes.searchButton}
             onClick={() => setOpen(true)}

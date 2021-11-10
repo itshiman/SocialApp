@@ -34,7 +34,7 @@ const Feed = ({ username }) => {
   const classes = useStyles();
   return (
     <div>
-      <Container className={classes.container}>
+      <Container className={classes.container} style={{ paddingTop: '10px' }}>
         {posts.map((p, index) => {
           return <Post post={p} key={p._id} index={index} />;
         })}

@@ -333,7 +333,7 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
 
     var resPosts = [...tempResPosts];
 
-    if (friendPosts) {
+    if (friendPosts[0]) {
       friendPosts[0].forEach(function (item) {
         var flag = 0;
         for (var i = 0; i < tempResPosts.length; i++) {

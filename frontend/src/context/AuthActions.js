@@ -21,3 +21,13 @@ export const Unfollow = (userId) => ({
   type: 'UNFOLLOW',
   payload: userId,
 });
+
+export const FollowCat = (userId) => ({
+  type: 'CATFOLLOW',
+  payload: username,
+});
+
+export const UnfollowCat = (userId) => ({
+  type: 'CATUNFOLLOW',
+  payload: username,
+});

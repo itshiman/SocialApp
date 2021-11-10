@@ -39,6 +39,25 @@ const AuthReducer = (state, action) => {
           ),
         },
       };
+
+    case 'CATFOLLOW':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          categories: [...state.user.categories, action.payload],
+        },
+      };
+    case 'CATUNFOLLOW':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          categories: state.user.categories.filter(
+            (category) => category !== action.payload
+          ),
+        },
+      };
     default:
       return state;
   }

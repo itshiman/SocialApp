@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
-import { Box, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Avatar, Box, Grid, makeStyles, Paper } from '@material-ui/core';
 import FriendList from '../components/FriendList';
 import ProfileRightBar from '../components/ProfileRightBar';
 
@@ -78,22 +78,40 @@ export default function Profile() {
                       src='https://picsum.photos/5000/5000'
                       alt=''
                     />
-                    <img
+                    <Avatar
+                      alt={user.username}
+                      src={user.profilePicture}
+                      style={{
+                        height: '120px',
+                        width: '110px',
+                        postion: 'absolute',
+                        left: '200',
+                        right: '0',
+                        margin: 'auto',
+                        top: '-70px',
+                        border: '3px solid white',
+                      }}
+                    />
+                    {/* <img
                       className='profileUserImg'
                       src={user.profilePicture}
                       alt=''
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
             </div>
           </Box>
           <Grid container className={classes.nestGrid}>
-            <Grid item sm={4} className={classes.gridItemRight}>
+            <Grid item sm={4} style={{ marginTop: '40px' }}>
               <FriendList user={user} />
             </Grid>
-            <Grid item sm={4} className={classes.gridItemRight}>
-              <Box className={classes.descriptionBox} mt={15}>
+            <Grid
+              item
+              sm={4}
+              className={classes.gridItemRight}
+              style={{ marginTop: '200px' }}>
+              <Box className={classes.descriptionBox}>
                 <div className='profileInfo'>
                   <h4 className='profileInfoName'>{username}</h4>
                   <Paper elevation={2}>

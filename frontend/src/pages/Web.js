@@ -1,7 +1,6 @@
 import './web.css';
 import Topbar from '../components/Navbar';
-import Sidebar from '../components/sidebar/Leftbar';
-import Feed from '../components/Feed';
+
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
@@ -24,9 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     margingRight: '0',
   },
-  nestGridItem: {
-    marginTop: '100px',
-  },
+
   imageList: {
     width: 350,
     height: 450,
@@ -61,7 +58,7 @@ export default function Web() {
           <Leftbar />
         </Grid>
         <Grid item sm={10} xs={10} className={classes.gridItemLeft}>
-          <Grid container>
+          <Grid container style={{ marginTop: '60px' }}>
             <Grid item sm={12}>
               <div className='profile'>
                 <div className='profileRight'>
@@ -82,20 +79,16 @@ export default function Web() {
             container
             className={classes.nestGrid}
             style={{ marginTop: '80px' }}>
-            <Grid item sm={4} className={classes.gridItemRight}></Grid>
-            <Grid item sm={4} className={classes.gridItemRight}>
-              <Box className={classes.descriptionBox} mt={5}>
+            <Grid item sm={4}></Grid>
+            <Grid item sm={4}>
+              <Box className={classes.descriptionBox} mt={7}>
                 <div className='profileInfo'>
-                  <h4 className='profileInfoName'>{username}</h4>
-
-                  <span className='profileInfoDesc'>
-                    <h3>Welcome to Web Home Page</h3>
-                  </span>
+                  <h4>Welcome to {username} Home Page</h4>
                 </div>
               </Box>
             </Grid>
-            <Grid item sm={4} className={classes.gridItemRight}>
-              <WebRightBar user={user} />
+            <Grid item sm={4}>
+              <WebRightBar user={user} currentUser={currentUser} />
             </Grid>
           </Grid>
           <Grid item>

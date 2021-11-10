@@ -23,7 +23,7 @@ export default function Home() {
         <Grid item sm={2} xs={2} className={classes.gridItemLeft}>
           <Leftbar />
         </Grid>
-        <Grid item sm={7} xs={10}>
+        <Grid item sm={7} xs={10} style={{ marginTop: '65px' }}>
           <Feed />
         </Grid>
         <Grid item sm={3} className={classes.gridItemRight}>

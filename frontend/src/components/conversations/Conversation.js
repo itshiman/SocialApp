@@ -1,3 +1,4 @@
+import { Avatar } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './conversation.css';
@@ -21,7 +22,9 @@ export default function Conversation({ conversation, currentUser }) {
   }, [currentUser, conversation]);
   return (
     <div className='conversation'>
-      <img className='conversationImg' src={user?.profilePicture} alt='' />
+      <div>
+        <Avatar alt={user?.username} src={user?.profilePicture} />
+      </div>
       <span className='conversationName'>{user?.username}</span>
     </div>
   );

@@ -1,3 +1,4 @@
+import { Avatar } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './chatOnline.css';
@@ -36,16 +37,42 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   };
 
   return (
-    <div className='chatOnline'>
-      {onlineFriends.map((o) => (
-        <div className='chatOnlineFriend' onClick={() => handleClick(o)}>
-          <div className='chatOnlineImgContainer'>
-            <img className='chatOnlineImg' src={o.profilePicture} alt='' />
-            <div className='chatOnlineBadge'></div>
-          </div>
-          <span className='chatOnlineName'>{o?.username}</span>
+    <div>
+      <div className='chatOnline'>
+        <div>
+          <h5>Online Friends</h5>
         </div>
-      ))}
+        {onlineFriends ? (
+          onlineFriends.map((o) => (
+            <div className='chatOnlineFriend' onClick={() => handleClick(o)}>
+              <div className='chatOnlineImgContainer'>
+                <Avatar alt={o.username} src={o.profilePicture} />
+                <div className='chatOnlineBadge'></div>
+              </div>
+              <span className='chatOnlineName'>{o?.username}</span>
+            </div>
+          ))
+        ) : (
+          <div>No Friends Are online</div>
+        )}
+      </div>
+      <div className='chatOnline'>
+        <h5>Offline Friends</h5>
+        {friends ? (
+          friends.map((friend) => (
+            <div
+              className='chatOnlineFriend'
+              onClick={() => handleClick(friend)}>
+              <div className='chatOnlineImgContainer'>
+                <Avatar alt={friend.username} src={friend.profilePicture} />
+              </div>
+              <span className='chatOnlineName'>{friend?.username}</span>
+            </div>
+          ))
+        ) : (
+          <div>No Friends to show</div>
+        )}
+      </div>
     </div>
   );
 }
