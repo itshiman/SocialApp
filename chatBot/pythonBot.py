@@ -3,6 +3,9 @@ from flask_cors import CORS, cross_origin
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import ListTrainer
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 chatbot = ChatBot(
     'CoronaBot',
@@ -21,9 +24,9 @@ chatbot = ChatBot(
 )
 
 training_data_quesans = open(
-    '/home/himanshu/Desktop/PythonBot/ques_ans.txt').read().splitlines()
+    '/home/himanshu/Desktop/Projects/BackEnd/nodejs/SocialServer/chatBot/ques_ans.txt').read().splitlines()
 training_data_personal = open(
-    '/home/himanshu/Desktop/PythonBot/personal_ques.txt').read().splitlines()
+    '/home/himanshu/Desktop/Projects/BackEnd/nodejs/SocialServer/chatBot/ques_ans.txt').read().splitlines()
 
 training_data = training_data_quesans + training_data_personal
 
