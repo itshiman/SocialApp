@@ -170,8 +170,10 @@ const Add = () => {
                         label='Category'
                         value={category}
                         onChange={handleChange}>
-                        <MenuItem value={'web'}>Web Development</MenuItem>
-                        <MenuItem value={'android'}>
+                        <MenuItem value={'Web Development'}>
+                          Web Development
+                        </MenuItem>
+                        <MenuItem value={'Android Development'}>
                           Android Development
                         </MenuItem>
                         <MenuItem value={30}>Thirty</MenuItem>

@@ -57,7 +57,7 @@ const Leftbar = () => {
           <Typography className={classes.text}>Home</Typography>
         </div>
       </Link>
-      <Link to='/category/web' style={{ textDecoration: 'none' }}>
+      <Link to='/category/Web Development' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
             src='http://localhost:3000/images/icons8-web-development-48.png'
@@ -66,20 +66,26 @@ const Leftbar = () => {
           <Typography className={classes.text}>Web Development</Typography>
         </div>
       </Link>
-      <div className={classes.item}>
-        <img
-          src='http://localhost:3000/images/icons8-android-os-48.png'
-          className={classes.icon}
-        />
-        <Typography className={classes.text}>Android Dev</Typography>
-      </div>
-      <div className={classes.item}>
-        <img
-          src='http://localhost:3000/images/icons8-java-48.png'
-          className={classes.icon}
-        />
-        <Typography className={classes.text}>Java</Typography>
-      </div>
+      <Link
+        to='/category/Android Development'
+        style={{ textDecoration: 'none' }}>
+        <div className={classes.item}>
+          <img
+            src='http://localhost:3000/images/icons8-android-os-48.png'
+            className={classes.icon}
+          />
+          <Typography className={classes.text}>Android Dev</Typography>
+        </div>
+      </Link>
+      <Link to='/category/Data Structures' style={{ textDecoration: 'none' }}>
+        <div className={classes.item}>
+          <img
+            src='http://localhost:3000/images/icons8-java-48.png'
+            className={classes.icon}
+          />
+          <Typography className={classes.text}>Data Structures</Typography>
+        </div>
+      </Link>
       <div className={classes.item}>
         <img
           src='http://localhost:3000/images/icons8-javascript-48.png'

@@ -17,6 +17,7 @@ function WebRightBar({ user, currentUser }) {
 
   useEffect(() => {
     if (currentUser) {
+      localStorage.setItem('user', JSON.stringify(currentUser));
       setFollowed(currentUser.categories.includes(user.username));
     }
   }, [currentUser, user]);

@@ -136,7 +136,7 @@ export default function Messenger() {
         <div className='chatMenu'>
           <div className='chatMenuWrapper'>
             <h5 style={{ marginTop: '10px' }}>Chat with Bot</h5>
-            <Button onClick={() => setOnBot(!onBot)}> Chat With XXX</Button>
+            <Button onClick={() => setOnBot(!onBot)}> Chat With Tob</Button>
             <h5 style={{ marginTop: '10px' }}>Previous Conversations</h5>
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>

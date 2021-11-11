@@ -18,6 +18,7 @@ function ProfileRightBar({ user, currentUser }) {
 
   useEffect(() => {
     if (currentUser) {
+      localStorage.setItem('user', JSON.stringify(currentUser));
       setFollowed(currentUser.followings.includes(user._id));
     }
   }, [currentUser, user]);
@@ -37,7 +38,7 @@ function ProfileRightBar({ user, currentUser }) {
       console.log(err);
     }
   };
-
+  console.log(currentUser);
   const handleClickFollow = async () => {
     try {
       console.log(followed);
