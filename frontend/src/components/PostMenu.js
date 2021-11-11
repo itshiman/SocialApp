@@ -18,21 +18,23 @@ export default function PostMenu(props) {
   const { user } = useContext(AuthContext);
 
   const deletePost = () => {
-    try {
-      axios.delete(`/posts/${props.post._id}`, {
+    axios
+      .delete(`/posts/${props.post._id}`, {
         headers: {
           Authorization: 'bearer ' + user.token,
         },
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('You cannot Delete this Post\n' + err.message);
       });
-    } catch (err) {
-      console.log(err);
-    }
-    props.handleClose();
-    window.location.reload();
-  };
 
-  console.log(props.post);
-  console.log(user);
+    props.handleClose();
+  };
 
   return (
     <div>

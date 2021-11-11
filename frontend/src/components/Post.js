@@ -180,6 +180,13 @@ const Posts = ({ post, index }) => {
                 ) : (
                   <></>
                 )}
+                {post.admin ? (
+                  <Badge color='primary' style={{ marginLeft: '10px' }}>
+                    Mod
+                  </Badge>
+                ) : (
+                  <></>
+                )}
               </div>
             }
             subheader={format(post.createdAt)}

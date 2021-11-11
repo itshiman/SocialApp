@@ -120,12 +120,12 @@ const Navbar = () => {
             className={classes.searchButton}
             onClick={() => setOpen(true)}
           />
-          <Badge badgeContent={4} color='secondary' className={classes.badge}>
+          {/* <Badge badgeContent={4} color='secondary' className={classes.badge}>
             <Mail />
           </Badge>
           <Badge badgeContent={4} color='secondary' className={classes.badge}>
             <Notifications />
-          </Badge>
+          </Badge> */}
 
           <Link to={`/Profile/${user.username}`}>
             <Avatar
@@ -134,7 +134,10 @@ const Navbar = () => {
               src={user.profilePicture}
             />
           </Link>
-          <PowerSettingsNew onClick={handleLogout} />
+          <PowerSettingsNew
+            onClick={handleLogout}
+            style={{ marginLeft: '10px' }}
+          />
         </div>
       </Toolbar>
     </AppBar>

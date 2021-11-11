@@ -66,7 +66,7 @@ export default function Web() {
                     <div className='profileCover'>
                       <img
                         className='profileCoverImgWeb'
-                        src='https://www.reachfirst.com/wp-content/uploads/2018/08/Web-Development.jpg'
+                        src={user.coverPicture}
                         alt=''
                       />
                     </div>
@@ -83,7 +83,8 @@ export default function Web() {
             <Grid item sm={4}>
               <Box className={classes.descriptionBox} mt={7}>
                 <div className='profileInfo'>
-                  <h4>Welcome to {username} Home Page</h4>
+                  <h4>Welcome to Home Page of</h4>
+                  <h4>{username}</h4>
                 </div>
               </Box>
             </Grid>

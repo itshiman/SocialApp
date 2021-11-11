@@ -29,6 +29,10 @@ const postSchema = new Schema(
     description: {
       type: String,
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
     },

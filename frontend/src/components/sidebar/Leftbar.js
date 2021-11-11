@@ -86,20 +86,24 @@ const Leftbar = () => {
           <Typography className={classes.text}>Data Structures</Typography>
         </div>
       </Link>
-      <div className={classes.item}>
-        <img
-          src='http://localhost:3000/images/icons8-javascript-48.png'
-          className={classes.icon}
-        />
-        <Typography className={classes.text}>Javascript</Typography>
-      </div>
-      <div className={classes.item}>
-        <img
-          src='http://localhost:3000/images/icons8-c++-48.png'
-          className={classes.icon}
-        />
-        <Typography className={classes.text}>C/C++</Typography>
-      </div>
+      <Link to='/category/Machine Learning' style={{ textDecoration: 'none' }}>
+        <div className={classes.item}>
+          <img
+            src='http://localhost:3000/images/ml.png.png'
+            className={classes.icon}
+          />
+          <Typography className={classes.text}>Machine Learning</Typography>
+        </div>
+      </Link>
+      <Link to='/category/Block Chain' style={{ textDecoration: 'none' }}>
+        <div className={classes.item}>
+          <img
+            src='http://localhost:3000/images/block.png'
+            className={classes.icon}
+          />
+          <Typography className={classes.text}>Block Chain</Typography>
+        </div>
+      </Link>
     </Container>
   );
 };

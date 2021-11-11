@@ -12,7 +12,7 @@ import {
 import { AvatarGroup } from '@material-ui/lab';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { CardHeader } from 'reactstrap';
+import { Button, CardBody, CardHeader, CardTitle, Collapse } from 'reactstrap';
 import { AuthContext } from '../../context/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,24 +65,45 @@ const Rightbar = () => {
         <Avatar alt='Trevor Henderson' src='' />
         <Avatar alt='Trevor Henderson' src='' />
       </AvatarGroup>
-      <div>Chat with your Friends</div>
-      {console.log(friends)}
-      {friends ? (
-        friends.map((friend) => {
-          return (
-            <Card>
-              <Link to={`/messenger`}>
-                <CardActions>
-                  <Avatar alt={user.username} src={user.profilePicture} />
-                  <div style={{ leftMargin: '10px' }}>{friend.username}</div>
-                </CardActions>
-              </Link>
+      <div>
+        <Card>
+          <CardBody>
+            <CardTitle tag='h5'>Try these commands:</CardTitle>
+            <Card style={{ marginTop: '5px' }}>
+              <CardBody>
+                <CardTitle tag='h6'>What Does this App do?</CardTitle>
+              </CardBody>
             </Card>
-          );
-        })
-      ) : (
-        <div>Follow Some People to add them as your Friend</div>
-      )}
+            <Card style={{ marginTop: '5px' }}>
+              <CardBody>
+                <CardTitle tag='h6'>Make a Post</CardTitle>
+                <div>
+                  {' '}
+                  Add the title, decription and share the post by saying these
+                  commands:
+                </div>
+                <div>Add title</div>
+                <div>Add Description</div>
+                <div>Share the post</div>
+              </CardBody>
+            </Card>
+            <Card style={{ marginTop: '5px' }}>
+              <CardBody>
+                <CardTitle tag='h6'>Read The post</CardTitle>
+                <div>Read One Post</div>
+                <div>Read All Posts</div>
+              </CardBody>
+            </Card>
+            <Card style={{ marginTop: '5px' }}>
+              <CardBody>
+                <CardTitle tag='h6'>Misc. Commands</CardTitle>
+                <div>Scroll Up</div>
+                <div>Scroll Down</div>
+              </CardBody>
+            </Card>
+          </CardBody>
+        </Card>
+      </div>
     </Container>
   );
 };

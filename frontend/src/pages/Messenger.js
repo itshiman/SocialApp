@@ -8,7 +8,9 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
-import { Button } from '@material-ui/core';
+import { Button, Card, Grid } from '@material-ui/core';
+import { CardBody } from 'reactstrap';
+import { Android, Chat, ChatBubble } from '@material-ui/icons';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -112,7 +114,7 @@ export default function Messenger() {
     };
 
     try {
-      const res = await axios.get('http://127.0.0.1:5000/?msg=message.text');
+      const res = await axios.get(`http://127.0.0.1:5000/?msg=${message.text}`);
       console.log(res);
       setBotMessages([
         ...botMessages,
@@ -133,78 +135,108 @@ export default function Messenger() {
     <>
       <Navbar />
       <div className='messenger'>
-        <div className='chatMenu'>
-          <div className='chatMenuWrapper'>
-            <h5 style={{ marginTop: '10px' }}>Chat with Bot</h5>
-            <Button onClick={() => setOnBot(!onBot)}> Chat With Tob</Button>
-            <h5 style={{ marginTop: '10px' }}>Previous Conversations</h5>
-            {conversations.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} />
+        <Grid container>
+          <Grid item sm={3}>
+            <div className='chatMenu'>
+              <div className='chatMenuWrapper'>
+                <Card>
+                  <CardBody>
+                    <h5 style={{ marginTop: '10px' }}>Chat with Bot</h5>
+                    <Android />
+                    <Button onClick={() => setOnBot(!onBot)}>
+                      Chat With Tob
+                    </Button>
+                  </CardBody>
+                </Card>
+                <Card style={{ marginTop: '10px' }}>
+                  <CardBody>
+                    <h5 style={{ marginTop: '10px' }}>
+                      Previous Conversations
+                    </h5>
+                    {conversations.map((c) => (
+                      <div onClick={() => setCurrentChat(c)}>
+                        <Conversation conversation={c} currentUser={user} />
+                      </div>
+                    ))}
+                  </CardBody>
+                </Card>
               </div>
-            ))}
-          </div>
-        </div>
-        <div className='chatBox'>
-          <div className='chatBoxWrapper'>
-            {onBot ? (
-              <div>
-                <div className='chatBoxTop'>
-                  {botMessages.map((m) => (
-                    <div ref={scrollRef}>
-                      <Message message={m} own={m.sender === 'user'} />
-                    </div>
-                  ))}
+            </div>
+          </Grid>
+          <Grid item sm={6}>
+            <Card style={{ height: '100vh' }}>
+              <CardBody>
+                <div className='chatBox'>
+                  <div className='chatBoxWrapper'>
+                    {onBot ? (
+                      <div>
+                        <div className='chatBoxTop'>
+                          {botMessages.map((m) => (
+                            <div ref={scrollRef}>
+                              <Message message={m} own={m.sender === 'user'} />
+                            </div>
+                          ))}
+                        </div>
+                        <div className='chatBoxBottom'>
+                          <textarea
+                            className='chatMessageInput'
+                            placeholder='write something...'
+                            onChange={(e) => setNewBotMessage(e.target.value)}
+                            value={newBotMessage}></textarea>
+                          <button
+                            className='chatSubmitButton'
+                            onClick={handleSubmitBot}>
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    ) : currentChat ? (
+                      <>
+                        <div className='chatBoxTop'>
+                          {messages.map((m) => (
+                            <div ref={scrollRef}>
+                              <Message
+                                message={m}
+                                own={m.sender === user._id}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <div className='chatBoxBottom'>
+                          <textarea
+                            className='chatMessageInput'
+                            placeholder='write something...'
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            value={newMessage}></textarea>
+                          <button
+                            className='chatSubmitButton'
+                            onClick={handleSubmit}>
+                            Send
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <span className='noConversationText'>
+                        Open a conversation to start a chat.
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className='chatBoxBottom'>
-                  <textarea
-                    className='chatMessageInput'
-                    placeholder='write something...'
-                    onChange={(e) => setNewBotMessage(e.target.value)}
-                    value={newBotMessage}></textarea>
-                  <button
-                    className='chatSubmitButton'
-                    onClick={handleSubmitBot}>
-                    Send
-                  </button>
-                </div>
+              </CardBody>
+            </Card>
+          </Grid>
+          <Grid item sm={3}>
+            <div className='chatOnline'>
+              <div className='chatOnlineWrapper'>
+                <ChatOnline
+                  onlineUsers={onlineUsers}
+                  currentId={user._id}
+                  setCurrentChat={setCurrentChat}
+                />
               </div>
-            ) : currentChat ? (
-              <>
-                <div className='chatBoxTop'>
-                  {messages.map((m) => (
-                    <div ref={scrollRef}>
-                      <Message message={m} own={m.sender === user._id} />
-                    </div>
-                  ))}
-                </div>
-                <div className='chatBoxBottom'>
-                  <textarea
-                    className='chatMessageInput'
-                    placeholder='write something...'
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    value={newMessage}></textarea>
-                  <button className='chatSubmitButton' onClick={handleSubmit}>
-                    Send
-                  </button>
-                </div>
-              </>
-            ) : (
-              <span className='noConversationText'>
-                Open a conversation to start a chat.
-              </span>
-            )}
-          </div>
-        </div>
-        <div className='chatOnline'>
-          <div className='chatOnlineWrapper'>
-            <ChatOnline
-              onlineUsers={onlineUsers}
-              currentId={user._id}
-              setCurrentChat={setCurrentChat}
-            />
-          </div>
-        </div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </>
   );

@@ -176,6 +176,13 @@ const Add = () => {
                         <MenuItem value={'Android Development'}>
                           Android Development
                         </MenuItem>
+                        <MenuItem value={'Data Structures'}>
+                          Data Strucutres
+                        </MenuItem>
+                        <MenuItem value={'Machine Learning'}>
+                          Machine Learning
+                        </MenuItem>
+                        <MenuItem value={'Block Chain'}>Block Chain</MenuItem>
                         <MenuItem value={30}>Thirty</MenuItem>
                       </Select>
                     </FormControl>

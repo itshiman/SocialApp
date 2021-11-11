@@ -47,7 +47,14 @@ function FriendList({ user }) {
               to={'/Profile/' + friend.username}
               style={{ width: '45%', margin_left: '20px' }}>
               <ImageListItem style={{ height: '200px' }}>
-                <img src={friend.profilePicture} alt={friend.username} />
+                <img
+                  src={
+                    friend.profilePicture
+                      ? friend.profilePicture
+                      : 'http://localhost:3000/images/profileAvatar.png'
+                  }
+                  alt={friend.username}
+                />
                 <ImageListItemBar
                   title={friend.username}
                   actionIcon={

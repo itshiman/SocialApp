@@ -12,7 +12,8 @@ postRouter
   .route('/')
   //Post
   .post(authenticate.verifyUser, (req, res, next) => {
-    const newPost = { ...req.body, userId: req.user._id };
+    const admin = req.user.admin;
+    const newPost = { ...req.body, userId: req.user._id, admin: admin };
     Posts.create(newPost)
       .then(
         (post) => {
@@ -76,7 +77,7 @@ postRouter
     Posts.findById(req.params.id)
       .then(
         (post) => {
-          if (post.userId == req.user._id) {
+          if (post.userId == req.user._id || req.user.admin === true) {
             post.deleteOne().then(() => {
               res.status(200).json('Post has been deleted');
             });
@@ -335,11 +336,6 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
     }
 
     var resPosts = [...tempResPosts];
-    console.log('TempRes Post');
-    console.log(resPosts);
-
-    console.log('Friends Post');
-    console.log(friendPosts);
 
     if (catPosts) {
       for (var j = 0; j < catPosts.length; j++) {
@@ -359,8 +355,6 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
       }
     }
 
-    console.log('res Post');
-    console.log(resPosts);
     res.status(200);
     res.json(resPosts);
   } catch (error) {
