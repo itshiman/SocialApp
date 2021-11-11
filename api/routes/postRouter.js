@@ -317,36 +317,50 @@ postRouter.route('/timeline/:id').get(async (req, res, next) => {
 
     var tempResPosts = [...userPosts];
 
-    if (catPosts[0]) {
-      catPosts[0].forEach(function (item) {
-        var flag = 0;
-        for (var i = 0; i < userPosts.length; i++) {
-          if (item.userId === userPosts[i].userId) {
-            flag = 1;
+    if (friendPosts) {
+      for (var j = 0; j < friendPosts.length; j++) {
+        friendPosts[j].forEach(function (item) {
+          var flag = 0;
+          for (var i = 0; i < userPosts.length; i++) {
+            if (item.userId === userPosts[i].userId) {
+              flag = 1;
+              break;
+            }
           }
-        }
-        if (flag == 0) {
-          tempResPosts.push(item);
-        }
-      });
+          if (flag == 0) {
+            tempResPosts.push(item);
+          }
+        });
+      }
     }
 
     var resPosts = [...tempResPosts];
+    console.log('TempRes Post');
+    console.log(resPosts);
 
-    if (friendPosts[0]) {
-      friendPosts[0].forEach(function (item) {
-        var flag = 0;
-        for (var i = 0; i < tempResPosts.length; i++) {
-          if (item.userId === tempResPosts[i].userId) {
-            flag = 1;
+    console.log('Friends Post');
+    console.log(friendPosts);
+
+    if (catPosts) {
+      for (var j = 0; j < catPosts.length; j++) {
+        catPosts[j].forEach(function (item) {
+          var flag = 0;
+
+          for (var i = 0; i < tempResPosts.length; i++) {
+            if (item.userId === tempResPosts[i].userId) {
+              flag = 1;
+              break;
+            }
           }
-        }
-        if (flag == 0) {
-          resPosts.push(item);
-        }
-      });
+          if (flag == 0) {
+            resPosts.push(item);
+          }
+        });
+      }
     }
 
+    console.log('res Post');
+    console.log(resPosts);
     res.status(200);
     res.json(resPosts);
   } catch (error) {
