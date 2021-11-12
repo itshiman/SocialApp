@@ -194,10 +194,11 @@ export default function Alan() {
   }, [alanInstance]);
 
   const webd = useCallback(() => {
-    window.location.href = "/Profile/Web";
+    window.location.href = "/category/Web%20Development";
   }, [alanInstance]);
 
   const allpost = useCallback(() => {
+    console.log("yyyyyyyy", posts);
     posts.forEach((element, index) => {
       const date = element.createdAt.split("T");
 
@@ -210,13 +211,26 @@ export default function Alan() {
 
   const onepost = useCallback(
     ({ detail: payload }) => {
-      // console.log("pppppppppp", number);
-      const data = posts[payload.value];
-      const date = data.createdAt.split("T");
-      alanInstance.playText(
-        `post no ${payload.value} , created at ${date[0]} ,titled as ${data.title} and post description is ${data.description},
+      //console.log("pppppppppp", payload);
+      if (Number.isInteger(payload.value - 0)) {
+        const data = posts[payload.value];
+        const date = data.createdAt.split("T");
+        alanInstance.playText(
+          `post no ${payload.value} , created at ${date[0]} ,titled as ${data.title} and post description is ${data.description},
         this post have  ${data.likes.length} likes and  ${data.comments.length}comment`
-      );
+        );
+      } else {
+        const data = posts[2];
+        const date = data.createdAt.split("T");
+        alanInstance.playText(
+          `post no ${2} , created at ${date[0]} ,titled as ${
+            data.title
+          } and post description is ${data.description},
+        this post have  ${data.likes.length} likes and  ${
+            data.comments.length
+          }comment`
+        );
+      }
     },
     [alanInstance, posts]
   );
