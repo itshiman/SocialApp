@@ -75,7 +75,7 @@ export default function Profile() {
                   <div className='profileCover'>
                     <img
                       className='profileCoverImg'
-                      src='https://picsum.photos/5000/5000'
+                      src={user.coverPicture}
                       alt=''
                     />
                     <Avatar

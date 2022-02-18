@@ -68,6 +68,7 @@ export default function SignIn({ setUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isFetching, dispatch } = useContext(AuthContext);
+  const [errors, setErrors] = useState();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -95,6 +96,7 @@ export default function SignIn({ setUser }) {
               label='Username'
               name='username'
               autoFocus
+              error={false}
               onInput={(e) => setUsername(e.target.value)}
             />
             <TextField
