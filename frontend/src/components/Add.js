@@ -96,18 +96,25 @@ const Add = () => {
       newPost.image = fileName;
       console.log(newPost);
       try {
-        const res = await axios.post('/upload', data);
+        const res = await axios.post(
+          'https://afternoon-woodland-88900.herokuapp.com/upload',
+          data
+        );
         console.log(res);
       } catch (err) {
         console.log(err);
       }
     }
     try {
-      await axios.post('/posts', newPost, {
-        headers: {
-          Authorization: 'bearer ' + user.token,
-        },
-      });
+      await axios.post(
+        'https://afternoon-woodland-88900.herokuapp.com/posts',
+        newPost,
+        {
+          headers: {
+            Authorization: 'bearer ' + user.token,
+          },
+        }
+      );
       window.location.reload();
     } catch (err) {}
   };

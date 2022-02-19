@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(http://localhost:3000/images/signIn.jpg)',
+    backgroundImage:
+      'url(https://afternoon-woodland-88900.herokuapp.com/images/signIn.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'

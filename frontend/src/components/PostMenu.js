@@ -19,11 +19,14 @@ export default function PostMenu(props) {
 
   const deletePost = () => {
     axios
-      .delete(`/posts/${props.post._id}`, {
-        headers: {
-          Authorization: 'bearer ' + user.token,
-        },
-      })
+      .delete(
+        `https://afternoon-woodland-88900.herokuapp.com/posts/${props.post._id}`,
+        {
+          headers: {
+            Authorization: 'bearer ' + user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         window.location.reload();

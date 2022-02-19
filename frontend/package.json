@@ -1,6 +1,7 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Front End for Social Server",
   "private": true,
   "dependencies": {
     "@alan-ai/alan-sdk-web": "^1.8.28",
@@ -53,5 +54,8 @@
       "last 1 safari version"
     ]
   },
+  "author": "himanshu-rathore",
+  "license": "MIT",
   "proxy": "http://localhost:3000/"
+  
 }

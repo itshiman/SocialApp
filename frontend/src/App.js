@@ -9,10 +9,9 @@ import React, { useContext, useEffect } from 'react';
 import { AuthContext } from './context/AuthContext';
 import Web from './pages/Web';
 import Messenger from './pages/Messenger';
-import Alan from './Alan';
+
 function App() {
   const { user } = useContext(AuthContext);
-  Alan();
 
   return (
     <div>

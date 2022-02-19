@@ -26,7 +26,10 @@ function FriendList({ user }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get('/users/friends/' + user._id);
+        const friendList = await axios.get(
+          'https://afternoon-woodland-88900.herokuapp.com/users/friends/' +
+            user._id
+        );
         setFriends(friendList.data);
       } catch (err) {
         console.log(err);
@@ -51,7 +54,7 @@ function FriendList({ user }) {
                   src={
                     friend.profilePicture
                       ? friend.profilePicture
-                      : 'http://localhost:3000/images/profileAvatar.png'
+                      : 'https://afternoon-woodland-88900.herokuapp.com/images/profileAvatar.png'
                   }
                   alt={friend.username}
                 />

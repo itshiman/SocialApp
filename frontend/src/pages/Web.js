@@ -39,11 +39,15 @@ export default function Web() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get('/users?username=' + username, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      const res = await axios.get(
+        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
+          username,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       setUser(res.data);
     };
     fetchUser();

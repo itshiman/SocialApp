@@ -26,11 +26,15 @@ function WebRightBar({ user, currentUser }) {
 
   const handleClick = async () => {
     try {
-      await axios.put(`/users/category/${user.username}/unfollow`, body, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      await axios.put(
+        `https://afternoon-woodland-88900.herokuapp.com/users/category/${user.username}/unfollow`,
+        body,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       dispatch({ type: 'CATUNFOLLOW', payload: user.username });
 
       setFollowed(!followed);
@@ -42,11 +46,15 @@ function WebRightBar({ user, currentUser }) {
   const handleClickFollow = async () => {
     try {
       console.log(followed);
-      await axios.put(`/users/category/${user.username}/follow`, body, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      await axios.put(
+        `https://afternoon-woodland-88900.herokuapp.com/users/category/${user.username}/follow`,
+        body,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       dispatch({ type: 'CATFOLLOW', payload: user.username });
 
       setFollowed(!followed);

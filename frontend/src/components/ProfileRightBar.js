@@ -26,11 +26,15 @@ function ProfileRightBar({ user, currentUser }) {
   const body = {};
   const handleClick = async () => {
     try {
-      await axios.put(`/users/${user._id}/unfollow`, body, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      await axios.put(
+        `https://afternoon-woodland-88900.herokuapp.com/users/${user._id}/unfollow`,
+        body,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       dispatch({ type: 'UNFOLLOW', payload: user._id });
 
       setFollowed(!followed);
@@ -42,11 +46,15 @@ function ProfileRightBar({ user, currentUser }) {
   const handleClickFollow = async () => {
     try {
       console.log(followed);
-      await axios.put(`/users/${user._id}/follow`, body, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      await axios.put(
+        `https://afternoon-woodland-88900.herokuapp.com/users/${user._id}/follow`,
+        body,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       dispatch({ type: 'FOLLOW', payload: user._id });
 
       setFollowed(!followed);

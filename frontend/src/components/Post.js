@@ -118,11 +118,15 @@ const Posts = ({ post, index }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get('/users?userId=' + post.userId, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      const res = await axios.get(
+        'https://afternoon-woodland-88900.herokuapp.com/users?userId=' +
+          post.userId,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       setUser(res.data);
     };
     fetchUser();
@@ -130,7 +134,12 @@ const Posts = ({ post, index }) => {
 
   const likeHandler = () => {
     try {
-      axios.put('/posts/' + post._id + '/like', { userId: currentUser._id });
+      axios.put(
+        'https://afternoon-woodland-88900.herokuapp.com/posts/' +
+          post._id +
+          '/like',
+        { userId: currentUser._id }
+      );
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
@@ -194,7 +203,10 @@ const Posts = ({ post, index }) => {
           {post.image ? (
             <CardMedia
               className={classes.media}
-              image={'http://localhost:3000/images/' + post.image}
+              image={
+                'https://afternoon-woodland-88900.herokuapp.com/images/' +
+                post.image
+              }
               title='My post'
             />
           ) : (

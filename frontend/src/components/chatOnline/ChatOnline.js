@@ -11,7 +11,10 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 
   useEffect(() => {
     const getFriends = async () => {
-      const res = await axios.get('/users/friends/' + currentId);
+      const res = await axios.get(
+        'https://afternoon-woodland-88900.herokuapp.com/users/friends/' +
+          currentId
+      );
       setFriends(res.data);
     };
 
@@ -24,12 +27,17 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 
   const handleClick = async (user) => {
     try {
-      let res = await axios.get(`/conversations/find/${currentId}/${user._id}`);
+      let res = await axios.get(
+        `https://afternoon-woodland-88900.herokuapp.com/conversations/find/${currentId}/${user._id}`
+      );
       !res.data
-        ? (res = await axios.post('/conversations/', {
-            senderId: currentId,
-            receiverId: user._id,
-          }))
+        ? (res = await axios.post(
+            'https://afternoon-woodland-88900.herokuapp.com/conversations/',
+            {
+              senderId: currentId,
+              receiverId: user._id,
+            }
+          ))
         : setCurrentChat(res.data);
       setCurrentChat(res.data);
     } catch (err) {

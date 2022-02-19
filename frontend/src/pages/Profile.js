@@ -41,19 +41,27 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get('/users?username=' + username, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      const res = await axios.get(
+        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
+          username,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       setUser(res.data);
     };
     const fetchCurrentUser = async () => {
-      const res = await axios.get('/users?username=' + currentUser.username, {
-        headers: {
-          Authorization: 'bearer ' + currentUser.token,
-        },
-      });
+      const res = await axios.get(
+        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
+          currentUser.username,
+        {
+          headers: {
+            Authorization: 'bearer ' + currentUser.token,
+          },
+        }
+      );
       setCurrentUser1(res.data);
     };
     fetchUser();
