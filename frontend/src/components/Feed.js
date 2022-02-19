@@ -20,8 +20,8 @@ const Feed = ({ username }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username
-        ? await axios.get(serverUrl + username)
-        : await axios.get(serverUrl + user._id);
+        ? await axios.get(`${serverUrl}/posts/profile/` + username)
+        : await axios.get(`${serverUrl}/posts/timeline/` + user._id);
 
       setPosts(
         res.data.sort((p1, p2) => {
