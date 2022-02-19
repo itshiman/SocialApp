@@ -71,14 +71,17 @@ const Leftbar = () => {
         to='/category/Android Development'
         style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
-          <img src={`${serverUrl}/${serverUrl}`} className={classes.icon} />
+          <img
+            src={`${serverUrl}/images/icons8-android-os-48.png`}
+            className={classes.icon}
+          />
           <Typography className={classes.text}>Android Dev</Typography>
         </div>
       </Link>
       <Link to='/category/Data Structures' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src={`${serverUrl}/image/icons8-java-48.png`}
+            src={`${serverUrl}/images/icons8-java-48.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Data Structures</Typography>
@@ -95,10 +98,7 @@ const Leftbar = () => {
       </Link>
       <Link to='/category/Block Chain' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
-          <img
-            src={`${serverUrl}/images/ml.png.png`}
-            className={classes.icon}
-          />
+          <img src={`${serverUrl}/images/block.png`} className={classes.icon} />
           <Typography className={classes.text}>Block Chain</Typography>
         </div>
       </Link>
