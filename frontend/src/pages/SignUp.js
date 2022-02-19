@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import { serverUrl } from '../config';
 
 function Copyright() {
   return (
@@ -64,7 +65,7 @@ export default function SignUp() {
     };
 
     axios
-      .post('https://afternoon-woodland-88900.herokuapp.com/auth/signup', user)
+      .post(`${serverUrl}/auth/signup`, user)
       .then((response) => {
         history.push('/login');
       })

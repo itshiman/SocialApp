@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Post from './Post';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import { serverUrl } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,14 +20,8 @@ const Feed = ({ username }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username
-        ? await axios.get(
-            'https://afternoon-woodland-88900.herokuapp.com/posts/profile/' +
-              username
-          )
-        : await axios.get(
-            'https://afternoon-woodland-88900.herokuapp.com/posts/timeline/' +
-              user._id
-          );
+        ? await axios.get(serverUrl + username)
+        : await axios.get(serverUrl + user._id);
 
       setPosts(
         res.data.sort((p1, p2) => {

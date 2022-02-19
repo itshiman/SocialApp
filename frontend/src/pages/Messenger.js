@@ -11,6 +11,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Button, Card, Grid } from '@material-ui/core';
 import { CardBody } from 'reactstrap';
 import { Android, Chat, ChatBubble } from '@material-ui/icons';
+import { serverUrl } from '../config';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);

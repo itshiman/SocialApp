@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import { Box, Grid, makeStyles } from '@material-ui/core';
+import { serverUrl } from '../config';
 
 import WebRightBar from '../components/WebRightbar';
 import Leftbar from '../components/sidebar/Leftbar';
@@ -39,15 +40,11 @@ export default function Web() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(
-        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
-          username,
-        {
-          headers: {
-            Authorization: 'bearer ' + currentUser.token,
-          },
-        }
-      );
+      const res = await axios.get(`${serverUrl}/users?username=` + username, {
+        headers: {
+          Authorization: 'bearer ' + currentUser.token,
+        },
+      });
       setUser(res.data);
     };
     fetchUser();

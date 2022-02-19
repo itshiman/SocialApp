@@ -9,6 +9,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Avatar, Box, Grid, makeStyles, Paper } from '@material-ui/core';
 import FriendList from '../components/FriendList';
 import ProfileRightBar from '../components/ProfileRightBar';
+import { serverUrl } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   gridItemLeft: {
@@ -41,21 +42,16 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(
-        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
-          username,
-        {
-          headers: {
-            Authorization: 'bearer ' + currentUser.token,
-          },
-        }
-      );
+      const res = await axios.get(`${serverUrl}/users?username=` + username, {
+        headers: {
+          Authorization: 'bearer ' + currentUser.token,
+        },
+      });
       setUser(res.data);
     };
     const fetchCurrentUser = async () => {
       const res = await axios.get(
-        'https://afternoon-woodland-88900.herokuapp.com/users?username=' +
-          currentUser.username,
+        `${serverUrl}/users?username=` + currentUser.username,
         {
           headers: {
             Authorization: 'bearer ' + currentUser.token,

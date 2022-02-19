@@ -25,6 +25,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import './add.css';
+import { serverUrl } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -96,25 +97,18 @@ const Add = () => {
       newPost.image = fileName;
       console.log(newPost);
       try {
-        const res = await axios.post(
-          'https://afternoon-woodland-88900.herokuapp.com/upload',
-          data
-        );
+        const res = await axios.post(serverUrl, data);
         console.log(res);
       } catch (err) {
         console.log(err);
       }
     }
     try {
-      await axios.post(
-        'https://afternoon-woodland-88900.herokuapp.com/posts',
-        newPost,
-        {
-          headers: {
-            Authorization: 'bearer ' + user.token,
-          },
-        }
-      );
+      await axios.post(serverUrl, newPost, {
+        headers: {
+          Authorization: 'bearer ' + user.token,
+        },
+      });
       window.location.reload();
     } catch (err) {}
   };

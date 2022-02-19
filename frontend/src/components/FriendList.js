@@ -11,6 +11,7 @@ import { Info } from '@material-ui/icons';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { serverUrl } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
@@ -26,10 +27,7 @@ function FriendList({ user }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get(
-          'https://afternoon-woodland-88900.herokuapp.com/users/friends/' +
-            user._id
-        );
+        const friendList = await axios.get(serverUrl + user._id);
         setFriends(friendList.data);
       } catch (err) {
         console.log(err);

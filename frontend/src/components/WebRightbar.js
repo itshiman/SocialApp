@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { serverUrl } from '../config';
 
 function WebRightBar({ user, currentUser }) {
   const { dispatch } = useContext(AuthContext);
@@ -27,7 +28,7 @@ function WebRightBar({ user, currentUser }) {
   const handleClick = async () => {
     try {
       await axios.put(
-        `https://afternoon-woodland-88900.herokuapp.com/users/category/${user.username}/unfollow`,
+        `${serverUrl}/users/category/${user.username}/unfollow`,
         body,
         {
           headers: {
@@ -47,7 +48,7 @@ function WebRightBar({ user, currentUser }) {
     try {
       console.log(followed);
       await axios.put(
-        `https://afternoon-woodland-88900.herokuapp.com/users/category/${user.username}/follow`,
+        `${serverUrl}/users/category/${user.username}/follow`,
         body,
         {
           headers: {

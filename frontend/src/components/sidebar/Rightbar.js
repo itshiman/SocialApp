@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Button, CardBody, CardHeader, CardTitle, Collapse } from 'reactstrap';
 import { AuthContext } from '../../context/AuthContext';
+import { serverUrl } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,8 +44,7 @@ const Rightbar = () => {
     const getFriends = async () => {
       try {
         const friendList = await axios.get(
-          'https://afternoon-woodland-88900.herokuapp.com/users/friends/' +
-            user._id
+          `${serverUrl}/users/friends/` + user._id
         );
         setFriends(friendList.data);
       } catch (err) {

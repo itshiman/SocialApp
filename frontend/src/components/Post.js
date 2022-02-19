@@ -26,6 +26,7 @@ import axios from 'axios';
 import PostMenu from './PostMenu';
 import CommentForm from './CommentForm';
 import { Badge, CardFooter, Media } from 'reactstrap';
+import { serverUrl } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -118,15 +119,11 @@ const Posts = ({ post, index }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(
-        'https://afternoon-woodland-88900.herokuapp.com/users?userId=' +
-          post.userId,
-        {
-          headers: {
-            Authorization: 'bearer ' + currentUser.token,
-          },
-        }
-      );
+      const res = await axios.get(serverUrl + post.userId, {
+        headers: {
+          Authorization: 'bearer ' + currentUser.token,
+        },
+      });
       setUser(res.data);
     };
     fetchUser();

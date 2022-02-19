@@ -13,20 +13,18 @@ import { Cloud, Delete, Edit } from '@material-ui/icons';
 import axios from 'axios';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { serverUrl } from '../config';
 
 export default function PostMenu(props) {
   const { user } = useContext(AuthContext);
 
   const deletePost = () => {
     axios
-      .delete(
-        `https://afternoon-woodland-88900.herokuapp.com/posts/${props.post._id}`,
-        {
-          headers: {
-            Authorization: 'bearer ' + user.token,
-          },
-        }
-      )
+      .delete(`${serverUrl}/posts/${props.post._id}`, {
+        headers: {
+          Authorization: 'bearer ' + user.token,
+        },
+      })
       .then((res) => {
         console.log(res);
         window.location.reload();
