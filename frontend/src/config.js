@@ -1,1 +1,1 @@
-export const serverUrl = 'https://socailserverbackend.herokuapp.com/';
+export const serverUrl = 'https://socailserverbackend.herokuapp.com';
