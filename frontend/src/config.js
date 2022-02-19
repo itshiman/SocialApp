@@ -1,1 +1,1 @@
-export const serverUrl = 'https://socailserver.herokuapp.com/';
+export const serverUrl = 'http://localhost:3000/';
