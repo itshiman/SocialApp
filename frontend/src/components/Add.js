@@ -94,7 +94,6 @@ const Add = () => {
       const fileName = Date.now() + file.name;
       data.append('name', fileName);
       data.append('file', file);
-      newPost.image = fileName;
       console.log(newPost);
       try {
         const res = await axios.get(`${serverUrl}/upload/s3Url`);
@@ -122,7 +121,7 @@ const Add = () => {
           Authorization: 'bearer ' + user.token,
         },
       });
-      //window.location.reload();
+      window.location.reload();
     } catch (err) {}
   };
 
