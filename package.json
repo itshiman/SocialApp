@@ -59,6 +59,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "16.8.0"
+  },
   "author": "himanshu-rathore",
   "license": "MIT"
 }
