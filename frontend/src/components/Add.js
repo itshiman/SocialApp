@@ -94,12 +94,11 @@ const Add = () => {
       const fileName = Date.now() + file.name;
       data.append('name', fileName);
       data.append('file', file);
-      console.log(newPost);
+
       try {
         const res = await axios.get(`${serverUrl}/upload/s3Url`);
         const url = res.data.url;
-        console.log(res);
-        console.log(url);
+
         const resS3 = await fetch(url, {
           method: 'PUT',
           headers: {
@@ -107,9 +106,7 @@ const Add = () => {
           },
           body: file,
         });
-        console.log(resS3);
         const imageUrl = url.split('?')[0];
-        console.log(imageUrl);
         newPost.image = imageUrl;
       } catch (err) {
         console.log(err);
