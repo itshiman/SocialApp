@@ -9,7 +9,7 @@ const randomBytes = promisify(crypto.randomBytes);
 
 dotenv.config();
 
-const region = 'Asia Pacific (Mumbai) ap-south-1';
+const region = 'ap-south-1';
 const bucketName = 'himanshu-social-bucket';
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
