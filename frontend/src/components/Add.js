@@ -82,7 +82,7 @@ const Add = () => {
     setOpen(false);
     setFile(null);
     e.preventDefault();
-    console.log(e);
+
     const newPost = {
       title: title.current.value,
       userId: user._id,
@@ -94,11 +94,20 @@ const Add = () => {
       const fileName = Date.now() + file.name;
       data.append('name', fileName);
       data.append('file', file);
-      newPost.image = fileName;
-      console.log(newPost);
+
       try {
-        const res = await axios.post(`${serverUrl}/upload`, data);
-        console.log(res);
+        const res = await axios.get(`${serverUrl}/upload/s3Url`);
+        const url = res.data.url;
+
+        const resS3 = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: file,
+        });
+        const imageUrl = url.split('?')[0];
+        newPost.image = imageUrl;
       } catch (err) {
         console.log(err);
       }

@@ -197,10 +197,7 @@ const Posts = ({ post, index }) => {
           {post.image ? (
             <CardMedia
               className={classes.media}
-              image={
-                'https://afternoon-woodland-88900.herokuapp.com/images/' +
-                post.image
-              }
+              image={post.image}
               title='My post'
             />
           ) : (
