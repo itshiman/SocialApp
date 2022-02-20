@@ -60,5 +60,6 @@
     ]
   },
   "author": "himanshu-rathore",
-  "license": "MIT"
+  "license": "MIT",
+  "proxy":"http:://localhost:3001"
 }
