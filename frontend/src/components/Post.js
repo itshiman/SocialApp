@@ -119,7 +119,7 @@ const Posts = ({ post, index }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(serverUrl + post.userId, {
+      const res = await axios.get(`${serverUrl}/users?userId=` + post.userId, {
         headers: {
           Authorization: 'bearer ' + currentUser.token,
         },
@@ -131,12 +131,9 @@ const Posts = ({ post, index }) => {
 
   const likeHandler = () => {
     try {
-      axios.put(
-        'https://afternoon-woodland-88900.herokuapp.com/posts/' +
-          post._id +
-          '/like',
-        { userId: currentUser._id }
-      );
+      axios.put(`${serverUrl}/posts/` + post._id + '/like', {
+        userId: currentUser._id,
+      });
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);

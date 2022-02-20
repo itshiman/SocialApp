@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component } from 'react';
 import {
   Button,
   ModalHeader,
@@ -8,9 +8,8 @@ import {
   Col,
   Row,
 } from 'reactstrap';
-
+import { serverUrl } from '../config';
 import { LocalForm, Control, Errors } from 'react-redux-form';
-
 
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
@@ -35,47 +34,46 @@ class CommentForm extends Component {
 
   handleCommentFormSubmit(values) {
     this.toggleCommentForm();
-    console.log(values)
+    console.log(values);
     const newComment = {
-    userId: this.props.user.username ,
-    comment: values.comment,
-  };
+      userId: this.props.user.username,
+      comment: values.comment,
+    };
 
-    fetch(`http://localhost:3000/posts/${this.props.post._id}/comments`, {
-    method: 'POST',
-    body: JSON.stringify(newComment),
-    headers: {
-      'Content-Type': 'application/JSON',
-      'Authorization': 'bearer ' + this.props.user.token,
-    },
-    credentials: 'same-origin',
-  })
-    .then(
-      (response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            'Error ' + response.status + ': ' + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
+    fetch(`${serverUrl}/posts/${this.props.post._id}/comments`, {
+      method: 'POST',
+      body: JSON.stringify(newComment),
+      headers: {
+        'Content-Type': 'application/JSON',
+        Authorization: 'bearer ' + this.props.user.token,
       },
-      (error) => {
-        var errmess = new Error(error.message);
-        throw errmess;
-      }
-    )
+      credentials: 'same-origin',
+    })
+      .then(
+        (response) => {
+          if (response.ok) {
+            return response;
+          } else {
+            var error = new Error(
+              'Error ' + response.status + ': ' + response.statusText
+            );
+            error.response = response;
+            throw error;
+          }
+        },
+        (error) => {
+          var errmess = new Error(error.message);
+          throw errmess;
+        }
+      )
       .then((response) => {
-        response.json()
+        response.json();
         window.location.reload();
       })
-    .catch((error) => {
-      console.log('Post Comments', error.message);
-      alert('Your Comment could not be posted\n Error: ' + error.message);
-    });
-    
+      .catch((error) => {
+        console.log('Post Comments', error.message);
+        alert('Your Comment could not be posted\n Error: ' + error.message);
+      });
   }
 
   render() {
@@ -85,7 +83,7 @@ class CommentForm extends Component {
           <span className='fa fa-comments fa-lg'></span>Submit Comment
         </Button>
         <Modal
-          style={{marginTop:"100px"}}
+          style={{ marginTop: '100px' }}
           isOpen={this.state.isCommentFormOpen}
           toggle={this.toggleCommentForm}>
           <ModalHeader toggle={this.toggleCommentForm}>
@@ -94,8 +92,6 @@ class CommentForm extends Component {
           <ModalBody>
             <LocalForm
               onSubmit={(values) => this.handleCommentFormSubmit(values)}>
-            
-        
               <Row className='form-group'>
                 <Label htmlfor='comment' md={5}>
                   Comment

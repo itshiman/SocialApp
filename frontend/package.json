@@ -25,16 +25,21 @@
     "react-speech-recognition": "^3.9.0",
     "reactstrap": "^9.0.0",
     "redux": "^4.1.2",
+    "serve": "^13.0.2",
     "socket.io-client": "^4.2.0",
     "timeago.js": "^4.0.2",
     "web-vitals": "^1.0.1",
     "words-to-number": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+   
+    "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
+    
   },
   "eslintConfig": {
     "extends": [
@@ -55,7 +60,5 @@
     ]
   },
   "author": "himanshu-rathore",
-  "license": "MIT",
-  "proxy": "http://localhost:3000/"
-  
+  "license": "MIT"
 }

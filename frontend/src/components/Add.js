@@ -97,14 +97,14 @@ const Add = () => {
       newPost.image = fileName;
       console.log(newPost);
       try {
-        const res = await axios.post(serverUrl, data);
+        const res = await axios.post(`${serverUrl}/upload`, data);
         console.log(res);
       } catch (err) {
         console.log(err);
       }
     }
     try {
-      await axios.post(serverUrl, newPost, {
+      await axios.post(`${serverUrl}/posts`, newPost, {
         headers: {
           Authorization: 'bearer ' + user.token,
         },

@@ -3,6 +3,7 @@ import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { serverUrl } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,7 +52,7 @@ const Leftbar = () => {
       <Link to='/' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src='https://afternoon-woodland-88900.herokuapp.com/images/icons8-home-48.png'
+            src={`${serverUrl}/images/icons8-home-48.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Home</Typography>
@@ -60,7 +61,7 @@ const Leftbar = () => {
       <Link to='/category/Web Development' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src='https://afternoon-woodland-88900.herokuapp.com/images/icons8-web-development-48.png'
+            src={`${serverUrl}/images/icons8-web-development-48.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Web Development</Typography>
@@ -71,7 +72,7 @@ const Leftbar = () => {
         style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src='https://afternoon-woodland-88900.herokuapp.com/images/icons8-android-os-48.png'
+            src={`${serverUrl}/images/icons8-android-os-48.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Android Dev</Typography>
@@ -80,7 +81,7 @@ const Leftbar = () => {
       <Link to='/category/Data Structures' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src='https://afternoon-woodland-88900.herokuapp.com/icons8-java-48.png'
+            src={`${serverUrl}/images/icons8-java-48.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Data Structures</Typography>
@@ -89,7 +90,7 @@ const Leftbar = () => {
       <Link to='/category/Machine Learning' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
           <img
-            src='https://afternoon-woodland-88900.herokuapp.com/images/ml.png.png'
+            src={`${serverUrl}/images/ml.png.png`}
             className={classes.icon}
           />
           <Typography className={classes.text}>Machine Learning</Typography>
@@ -97,10 +98,7 @@ const Leftbar = () => {
       </Link>
       <Link to='/category/Block Chain' style={{ textDecoration: 'none' }}>
         <div className={classes.item}>
-          <img
-            src='https://afternoon-woodland-88900.herokuapp.com/images/block.png'
-            className={classes.icon}
-          />
+          <img src={`${serverUrl}/images/block.png`} className={classes.icon} />
           <Typography className={classes.text}>Block Chain</Typography>
         </div>
       </Link>
