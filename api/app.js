@@ -14,6 +14,7 @@ const postRouter = require('./routes/postRouter');
 const UserRouter = require('./routes/user');
 const MessageRouter = require('./routes/messages');
 const ConversationRouter = require('./routes/conversations');
+const uploadRouter = require('./routes/upload');
 
 const config = require('./config');
 
@@ -29,6 +30,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use(express.static('front'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -42,13 +44,13 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-app.post('/upload', upload.single('file'), (req, res) => {
-  try {
-    return res.status(200).json('Your file has been uploaded');
-  } catch (err) {
-    console.log(err);
-  }
-});
+// app.post('/upload', upload.single('file'), (req, res) => {
+//   try {
+//     return res.status(500).json({ message: 'Your file Could not be uploaded right now' });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 app.use(passport.initialize());
 
@@ -60,6 +62,7 @@ app.use('/posts', postRouter);
 app.use('/users', UserRouter);
 app.use('/conversations', ConversationRouter);
 app.use('/messages', MessageRouter);
+app.use('/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
