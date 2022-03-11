@@ -1,0 +1,11 @@
+.commentTextField {
+  width: 70%;
+  height: 60%;
+}
+
+.postCard {
+  box-shadow: -7px -4px 33px -1px rgba(84, 84, 84, 0.85) !important;
+  -webkit-box-shadow: -7px -4px 33px -1px rgba(84, 84, 84, 0.85) !important;
+  -moz-box-shadow: -7px -4px 33px -1px rgba(84, 84, 84, 0.85) !important;
+  border-radius: 0.5rem !important;
+}

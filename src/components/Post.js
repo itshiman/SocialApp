@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Avatar,
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -8,12 +9,15 @@ import {
   CardHeader,
   CardMedia,
   IconButton,
+  Input,
+  TextField,
   Typography,
 } from '@material-ui/core';
 
 import React, { useContext, useEffect, useState } from 'react';
 import {
   Comment,
+  EmojiEmotionsOutlined,
   ExpandMore,
   Favorite,
   MoreVert,
@@ -27,6 +31,7 @@ import PostMenu from './PostMenu';
 import CommentForm from './CommentForm';
 import { Badge, CardFooter, Media } from 'reactstrap';
 import { serverUrl } from '../config';
+import '../global.css';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -36,9 +41,7 @@ const useStyles = makeStyles((theme) => ({
       height: 150,
     },
   },
-  card: {
-    marginBottom: theme.spacing(5),
-  },
+
   container: {
     height: 50,
     widht: 50,
@@ -142,9 +145,10 @@ const Posts = ({ post, index }) => {
   return (
     <>
       {/* <Container className={classes.container}></Container> */}
-      <Card className={classes.card} id={post._id}>
+      <Card className='mb-5 postCard' id={post._id}>
         <CardActionArea>
           <CardHeader
+            className='postCard-header'
             avatar={
               <Link to={`/Profile/${user.username}`}>
                 <Avatar alt={user.username} src={user.profilePicture} />
@@ -194,6 +198,7 @@ const Posts = ({ post, index }) => {
             }
             subheader={format(post.createdAt)}
           />
+
           {post.image ? (
             <CardMedia
               className={classes.media}
@@ -225,17 +230,35 @@ const Posts = ({ post, index }) => {
             </IconButton>
           )}
           <Typography>{like} people Like this</Typography>
-          <Typography> | comments {post.comments.length} </Typography>
-
+          <Typography
+            className='ms-3'
+            onClick={() => {
+              setShowComment(!showComment);
+            }}>
+            {' '}
+            {post.comments.length} comments{' '}
+          </Typography>
+        </CardActions>
+        <CardFooter>
+          <EmojiEmotionsOutlined className='m-2' fontSize='large' />
+          <TextField
+            className='commentTextField'
+            variant='outlined'
+            margin='dense'
+            placeholder='Add a comment'>
+            {' '}
+          </TextField>
+          <Button variant='outlined' className='mt-1 ms-3'>
+            Post
+          </Button>
           <Comment
+            className='ms-3'
+            fontSize='large'
             onClick={() => {
               setShowComment(!showComment);
             }}
           />
 
-          <Typography> | post number {index} </Typography>
-        </CardActions>
-        <CardFooter>
           {showComment ? (
             <RenderComments
               comments={post.comments}
