@@ -20,9 +20,9 @@ pipeline {
         // }
          stage('Deliver') {
             steps {
-                sh './deliver.sh'
+                sh './jenkins/scripts/deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './kill.sh'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
