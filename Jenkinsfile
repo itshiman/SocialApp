@@ -24,7 +24,7 @@ pipeline {
                 sh 'sleep 1'
                 sh '$! > .pidfile'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh 'kill `$(cat ./.pidfile)`'
+                sh 'kill `cat .pidfile`'
             }
         }
     }
