@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
+
 import { Avatar, Box, Grid, makeStyles, Paper } from '@material-ui/core';
 import FriendList from '../components/FriendList';
 import ProfileRightBar from '../components/ProfileRightBar';
